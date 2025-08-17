@@ -21,6 +21,7 @@
       {% for c in courses %}
       {% if c.visible %}
         <option value="{{ c.id }}">{{ c.label }}</option>
+      {% endif %}
      {% endfor %}
     </select>
     <label for="email">E‑Mail*</label>
