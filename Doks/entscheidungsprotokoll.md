@@ -3,3 +3,6 @@
 2025-08-13 | domain dieti-it.ch ist gekauft und bereit bei hostpoint.ch
 2025-08-13 | PRIO 1: Anmeldeflyer muss so schnell wie möglich fertig werden, damit der Kurs ausgeschrieben und beworben werden kann. Dazu muss die webseeite stehen, Teilnehmer  muss sich registrieren können. Inhalt der Seite sollte minimalistisch für den ersten Kurs bereit sein, aber es sollte auch kein Problem sein, einen zweiten Kurs schnell aufzuschalten
 
+App Struktur besser verstehen: wie hängen die base - und templates genau zusammen, 
+zb am Beispiel einer neuen Seite, bzw eines weiteren Kurses üben
+
