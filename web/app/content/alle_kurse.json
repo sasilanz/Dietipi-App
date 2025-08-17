@@ -1,0 +1,33 @@
+[
+  {
+    "id": "grundkurs-2025-10-02-di",            
+    "typ": "grundkurs",                         
+    "label": "Grundkurs – Oktober 2025 (Do)",   
+    "startdatum": "2025-10-02",
+    "anzahl_wochen": 16,
+    "wochentag": "Donnerstag",
+    "uhrzeit": "09:30–11:30",
+    "ort": "Dietikon",
+    "beschreibung": "Basiswissen in langsamem Tempo",
+    "status": "anmeldung_offen",                
+    "kapazitaet": 12,
+    "preis": 320,
+    "waehrung": "CHF"
+  },
+  
+  {
+    "id": "aufbaukurs-2026-02-25-di",
+    "typ": "aufbaukurs",
+    "label": "Aufbaukurs – Frühling 2026",
+    "startdatum": "2026-02-05",
+    "anzahl_wochen": 16,
+    "wochentag": "Donnerstag",
+    "uhrzeit": "09:30–11:30",
+    "ort": "Dietikon",
+    "beschreibung": "Vertiefung: Dateien, Cloud, Sicherheit, Office",
+    "status": "planung",
+    "kapazitaet": 12,
+    "preis": 320,
+    "waehrung": "CHF"
+  }
+]

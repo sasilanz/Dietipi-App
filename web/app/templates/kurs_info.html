@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ kurs.titel }}{% endblock %}
+
+{% block content %}
+<h1>{{ kurs.titel }}</h1>
+{% if kurs.untertitel %}<p><em>Kursname: {{ kurs.untertitel }}</em></p>{% endif %}
+<p><strong>Start:</strong> {{ kurs.startdatum }} · <strong>Ort:</strong> {{ kurs.ort }}</p>
+
+<section>
+  <h2>Themen & Module</h2>
+  {% for thema in kurs.themen %}
+    <h3>{{ thema.titel }}</h3>
+    <ul>
+      {% for punkt in thema.punkte %}
+        <li>{{ punkt }}</li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</section>
+
+<p>
+  <a href="/anmeldung" class="anmelde-button">Zur Kursanmeldung</a>
+</p>
+{% endblock %}

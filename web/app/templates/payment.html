@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Zahlungsinformationen{% endblock %}
+
+{% block content %}
+<h1>Zahlungsinformationen</h1>
+<p>Vielen Dank für Deine Anmeldung beim {{ payment.display_name }}.<br><br>
+Eine Stunde kostet CHF 10.-, es findet pro Woche/pro Kurs eine Doppelstunde statt.<br>
+Der Kurs wird als Paket für 32 Stunden, jeweils in Doppelstunden angeboten. <br>
+Ein Kurs dauert also 16 Wochen, ca. 4 Monate. Ferien oder Ausfälle werden nicht verrechnet, daher kann ein Kurs auch länger als 4 Monate dauern.<br>
+Der Gesamtpreis für die Überweisung beträgt CHF 320.- pro Kurs.</p>
+
+<section aria-labelledby="bankdaten">
+  <h2 id="bankdaten">Banküberweisung</h2>
+  <ul>
+    <li><strong>Empfänger (Kontoinhaber):</strong> {{ payment.legal_name }}</li>
+    <li><strong>IBAN:</strong> {{ payment.iban }}</li>
+    {% if payment.bic %}
+      <li><strong>SWIFT/BIC:</strong> {{ payment.bic }}</li>
+    {% endif %}
+    {% if payment.bank %}
+      <li><strong>Bank:</strong> {{ payment.bank }}</li>
+    {% endif %}
+  </ul>
+  <p><strong>Verwendungszweck:</strong> „{{ payment.purpose_prefix }} für Grundkurs Okt 2025 - Dein Name“</p>
+</section>
+
+<section aria-labelledby="qr">
+  <h2 id="qr">QR‑Code</h2>
+  <p>Diesen QR-Code mit der Banking-App scannen, um die Kontodaten automatisch zu übernehmen:</p>
+  <img src="{{ url_for('static', filename='img/bank_qr.png') }}" 
+       alt="QR-Code für Überweisung" style="max-width:200px;">
+  <p><a href="{{ url_for('static', filename='img/bank_qr.png') }}" download>QR-Code herunterladen</a></p>
+</section>
+
+<section aria-labelledby="kontakt">
+  <h2 id="kontakt">Fragen</h2>
+  <p>
+    <a href="mailto:{{ payment.contact_email }}">{{ payment.contact_email }}</a>
+  </p>
+</section>
+
+{% endblock %}

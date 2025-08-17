@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Anmeldung erhalten{% endblock %}
+{% block content %}
+  <h1>Danke, {{ first }}!</h1>
+  <p>Deine Anmeldung hat funktioniert und das Bestätigungsemail wurde soeben verschickt.<br>
+    <br>Der nächste Schritt ist die Zahlung der Kursgebühr. <br>
+</p>
+<br><br>
+  <a href="/zahlung" class="anmelde-button anmelde-button--pay ">💳 Jetzt bezahlen</a>
+</p>
+{% endblock %}

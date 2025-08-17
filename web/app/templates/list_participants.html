@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+{% block title %}Teilnehmende – Admin{% endblock %}
+{% block content %}
+
+  <h1>Teilnehmende</h1>
+  <table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name / E‑Mail</th>
+      <th>Telefon</th>
+      <th>Kurs</th>
+      <th>Zahlung</th>
+      <th>Aktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in participants %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td>
+        {{ p.first_name }} {{ p.last_name }}<br>
+        <small>{{ p.email }}</small>
+      </td>
+      <td>{{ p.phone or "—" }}</td>
+      <td>{{ p.course_name or "—" }}</td>
+      <td>
+        {% if p.paid %}
+          ✅ Bezahlt
+          {% if p.payment_date %}<br><small>{{ p.payment_date.strftime('%d.%m.%Y %H:%M') }}</small>{% endif %}
+        {% else %}
+          ❌ Offen
+        {% endif %}
+      </td>
+      <td>
+        <form action="/teilnehmende/{{ p.id }}/paid?admin={{ token }}" method="post" style="display:inline;">
+          <input type="hidden" name="set" value="{{ 0 if p.paid else 1 }}">
+          <button type="submit">{{ "✗ zurücksetzen" if p.paid else "✓ markieren" }}</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

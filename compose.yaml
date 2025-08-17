@@ -1,0 +1,56 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: kursdb
+      MYSQL_USER: kursuser
+      MYSQL_PASSWORD: kurspass
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -prootpass || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:4
+    ports:
+      - "8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  webapp:
+    build:
+      context: ./web
+    env_file: ./web/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5001:5000"       # Host:5001 -> Container:5000
+    volumes:
+      - ./web/app:/app/app
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: >
+      tunnel --no-autoupdate run --token
+      eyJhIjoiNWQ0YjliNWMyYzIzNWNlMzFiMTM1YTA2YjEwYTQ3MzUiLCJ0IjoiMWZjN2I3ODEtODA3YS00NzVmLWEzNDgtMzg3MzdlYTE3MDNiIiwicyI6IlpHRTNNV0prTWpBdE5qazRNaTAwWW1ReUxXSTJaamd0WTJaaE16RmpOalV6WW1RMCJ9
+    depends_on:
+      db:
+        condition: service_healthy
+      webapp:
+        condition: service_started
+    restart: unless-stopped
+    # kein ports:-Block nötig; Tunnel baut ausgehend auf
+
+volumes:
+  dbdata:

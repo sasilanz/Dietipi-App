@@ -1,0 +1,18 @@
+{
+  "title": "SeniorInnen Basis IT‑Kurs Dietikon",
+  "subtitle": "Aktuelle Infos, Themen, Aufgaben und Termine.",
+  "schedule": [
+    { "date": "2025-10-02", "topic": "Erwartungen und Wünsche abholen, Tempo bestimmen, Hardware Grundlagen 1" },
+    { "date": "2025-10-09", "topic": "Internet 1: technische Grundlagen, WLAN, mobile Daten" },
+    { "date": "2025-10-16", "topic": "Internet 2: Sicherheit, Passwörter, 2FA" },
+    { "date": "2025-10-22", "topic": "E‑Mail: Schreiben, Anhänge, Ordner" }
+  ],
+  "announcements": [
+    "Sommerpause: 15.09.–05.10.2025",
+    "Bitte Laptop oder Tablet mitbringen."
+  ],
+  "tasks": [
+    "Übung: E‑Mail verfassen und versenden",
+    "Übung: Textdokument erstellen"
+  ]
+}

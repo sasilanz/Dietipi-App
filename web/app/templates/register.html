@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Anmeldung – SeniorInnen IT‑Kurs{% endblock %}
+{% block content %}
+  <h1>Anmeldung</h1>
+  <p>Bitte fülle das Formular aus. Du erhältst danach eine Bestätigung per E‑Mail.</p>
+
+  <form method="post" action="/anmeldung">
+    <div class="row"></div>
+      <div>
+        <label for="first_name">Vorname*</label>
+        <input id="first_name" name="first_name" required>
+      </div>
+      <div>
+        <label for="last_name">Nachname*</label>
+        <input id="last_name" name="last_name" required>
+      </div>
+    </div>
+    <label for="course_id">bitte Kurs auswählen</label>
+    <select id="course_id" name="course_id" required>
+      <option value="" disabled selected>Bitte wählen…</option>
+      {% for c in courses %}
+        <option value="{{ c.id }}">{{ c.label }}</option>
+     {% endfor %}
+    </select>
+    <label for="email">E‑Mail*</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="phone">Telefon</label>
+    <input id="phone" name="phone" placeholder="+41 …">
+
+    <!-- Spam-Honeypot (soll leer bleiben) -->
+    <div style="position:absolute;left:-9999px;">
+      <label>Bitte leer lassen</label>
+      <input name="website">
+    </div>
+
+    <div class="actions" style="margin-top:1rem;">
+      <button class="anmelde-button" type="submit">Anmelden</button>
+    </div>
+  </form>
+{% endblock %}

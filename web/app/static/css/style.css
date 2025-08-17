@@ -1,0 +1,209 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: #333;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #0077cc;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+section {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.anmelde-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.anmelde-button:hover {
+    background-color: #005fa3;
+}
+    
+/* ===== Anmeldung Formular ===== */
+form {
+  max-width: 480px;                 /* kompakter */
+  margin: 0;                        /* linksbündig */
+  padding: 1.5rem 1.75rem;
+  background: #f7f7f7;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+}
+
+form label {
+  display: block;
+  font-size: 1.15rem;
+  margin: 0.4rem 0 0.35rem;
+}
+
+form input {
+  width: 90%;                      /* bündig mit dem Formularrand */
+  padding: 0.9rem 1rem;
+  font-size: 1.15rem;
+  border: 2px solid #cfd8e3;
+  border-radius: 8px;
+  background: #f9fbfd;
+  margin-bottom: 1.1rem;
+  line-height: 1.35;
+}
+
+form input:focus {
+  border-color: #0077cc;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,119,204,0.15);
+}
+
+form select {
+  width: 90%;            /* gleiche Breite wie die Inputs */
+  padding: 0.9rem 1rem;  /* gleicher Innenabstand wie Inputs */
+  font-size: 1.15rem;    /* gleiche Schriftgröße wie Inputs */
+  border: 2px solid #cfd8e3;
+  border-radius: 8px;
+  background: #f9fbfd;
+  margin-bottom: 1.1rem;
+  line-height: 1.35;
+}
+
+form select:focus {
+  border-color: #0077cc;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,119,204,0.15);
+}
+
+form .row { 
+  display: block; 
+}
+form .row > div {
+  width: 100%;
+}
+
+form .actions {
+  margin-top: 0.5rem;
+}
+form button, .anmelde-button {
+  padding: 0.9rem 1.6rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
+
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Auffälliger Home-Button */
+.home-button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #0077cc;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.home-button:hover {
+  background-color: #005fa3;
+  transform: translateY(-2px);
+}
+
+/* Navigation */
+.nav a {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.nav a:hover {
+  background-color: #e6f0fa;
+}
+
+
+/* === Mobile-Feinschliff fürs Anmeldeformular === */
+@media (max-width: 768px) {
+  /* Der Kasten bleibt kompakt und gut lesbar */
+  form {
+    max-width: 100%;
+    margin: 0;                 /* linksbündig */
+    padding: 1.25rem 1rem;     /* etwas weniger Innenabstand auf sehr schmalen Screens */
+    border-radius: 12px;
+  }
+
+  /* Labels groß & klar */
+  form label {
+    font-size: 1.1rem;
+    margin: 0.35rem 0 0.3rem;
+  }
+
+  /* Eingabefelder: volle Breite, aber mit sauberem Rand */
+  form input {
+    width: 100%;
+    box-sizing: border-box;    /* verhindert Überstand */
+    padding: 0.9rem 1rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Falls irgendwo noch eine zweispaltige Reihe übrig war: einkolumnig */
+  form .row {
+    display: block !important;
+  }
+  form .row > div {
+    width: 100%;
+  }
+
+  /* Button gut klickbar, nicht zu klein */
+  form .actions {
+    margin-top: 0.75rem;
+    text-align: left;          /* bleibt linksbündig wie der Rest */
+  }
+  form button, .anmelde-button {
+    width: auto;               /* kein Vollbreite-Button, wirkt „buttoniger“ */
+    padding: 0.9rem 1.4rem;
+    font-size: 1.15rem;
+    border-radius: 8px;
+  }
+  /* Variante grüner button für Zahlung */
+  .anmelde-button--pay {
+  background-color: #28a745;      /* grün */
+  }
+  .anmelde-button--pay:hover {
+  background-color: #218838;
+  }
+}

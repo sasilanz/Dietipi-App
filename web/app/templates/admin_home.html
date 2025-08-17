@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Admin · IT‑Kurs{% endblock %}
+
+{% block content %}
+  <h1>Admin</h1>
+  <p>Willkommen im Admin‑Bereich.</p>
+
+  <h2>Teilnehmende</h2>
+  <ul>
+    <li><a href="/teilnehmende?admin={{ token }}">Liste</a></li>
+    <li><a href="/teilnehmende/new?admin={{ token }}">Neu anlegen</a></li>
+  </ul>
+
+
+{% endblock %}

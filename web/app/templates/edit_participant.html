@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Teilnehmende – Bearbeiten</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    body { margin: 2rem; }
+    .card { max-width: 560px; padding: 1.25rem; border: 1px solid #ddd; border-radius: 12px; }
+    label { display:block; margin:.75rem 0 .25rem; font-weight:600; }
+    input { width:100%; padding:.6rem .7rem; border:1px solid #ccc; border-radius:8px; }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .actions { margin-top:1rem; display:flex; gap:.5rem; }
+    button { padding:.7rem 1rem; border:0; border-radius:8px; cursor:pointer; }
+    .primary { background:#1e88e5; color:#fff; }
+    .ghost { background:#f3f3f3; }
+    .msg { margin-top: 1rem; color: #2e7d32; }
+    .error { color:#c62828; }
+  </style>
+</head>
+<body>
+  <h1>Teilnehmende – bearbeiten</h1>
+  <div class="card">
+    <form method="post" action="/teilnehmende/{{ p.id }}/edit">
+      <div class="row">
+        <div>
+          <label for="first_name">Vorname</label>
+          <input id="first_name" name="first_name" required value="{{ p.first_name }}">
+        </div>
+        <div>
+          <label for="last_name">Nachname</label>
+          <input id="last_name" name="last_name" required value="{{ p.last_name }}">
+        </div>
+      </div>
+
+      <label for="email">E‑Mail</label>
+      <input id="email" type="email" name="email" required value="{{ p.email }}">
+
+      <label for="phone">Telefon</label>
+      <input id="phone" name="phone" placeholder="+41 …" value="{{ p.phone or '' }}">
+      <label>
+        <input type="checkbox" name="paid" value="1" {% if p.paid %}checked{% endif %}>
+      Bezahlt
+      </label>
+      
+      <div class="actions">
+        <button class="primary" type="submit">Speichern</button>
+        <a class="ghost" href="/teilnehmende">Abbrechen</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
