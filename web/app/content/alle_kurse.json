@@ -12,7 +12,8 @@
     "status": "anmeldung_offen",                
     "kapazitaet": 12,
     "preis": 320,
-    "waehrung": "CHF"
+    "waehrung": "CHF",
+    "visible": true
   },
   
   {
@@ -28,6 +29,7 @@
     "status": "planung",
     "kapazitaet": 12,
     "preis": 320,
-    "waehrung": "CHF"
+    "waehrung": "CHF",
+    "visible": false
   }
 ]

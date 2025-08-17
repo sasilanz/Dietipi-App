@@ -19,6 +19,7 @@
     <select id="course_id" name="course_id" required>
       <option value="" disabled selected>Bitte wählen…</option>
       {% for c in courses %}
+      {% if c.visible %}
         <option value="{{ c.id }}">{{ c.label }}</option>
      {% endfor %}
     </select>
