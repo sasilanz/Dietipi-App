@@ -201,8 +201,8 @@ def anmeldung():
 
         return render_template("register_success.html", first=first)
 
-        # GET oder Fehlerfall
-        return render_template("register.html", form=form)
+    # GET oder Fehlerfall
+    return render_template("register.html", form=form)
 
 
 @app.get("/zahlung")
