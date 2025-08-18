@@ -158,9 +158,12 @@ form button, .anmelde-button {
 }
 
 .kursleitung-text {
-  order: 1; }/* Text kommt zuerst */
+  order: 2; }/* Text kommt zuerst */
 .kursleitung-bild {
-  order: 2; margin-left: 16px; } /* Bild kommt danach */
+  order: 1; 
+  margin-left: 16px; 
+  align-self: flex-start;
+} 
 
 
 .kursleitung-bild {
