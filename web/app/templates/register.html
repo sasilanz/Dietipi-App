@@ -5,39 +5,52 @@
   <p>Bitte fülle das Formular aus. Du erhältst danach eine Bestätigung per E‑Mail.</p>
 
   <form method="post" action="/anmeldung">
-    <div class="row"></div>
-      <div>
-        <label for="first_name">Vorname*</label>
-        <input id="first_name" name="first_name" required>
-      </div>
-      <div>
-        <label for="last_name">Nachname*</label>
-        <input id="last_name" name="last_name" required>
-      </div>
+    {{ form.hidden_tag() }}
+
+    <div>
+      <label for="{{ form.first_name.id }}">Vorname*</label>
+      {{ form.first_name(class="form-control", id=form.first_name.id) }}
     </div>
-    <label for="course_id">bitte Kurs auswählen</label>
-    <select id="course_id" name="course_id" required>
-      <option value="" disabled selected>Bitte wählen…</option>
-      {% for c in courses %}
-      {% if c.visible %}
-        <option value="{{ c.id }}">{{ c.label }}</option>
+
+    <div>
+      <label for="{{ form.last_name.id }}">Nachname*</label>
+      {{ form.last_name(class="form-control", id=form.last_name.id) }}
+    </div>
+
+    <div>
+      <label for="{{ form.course_id.id }}">Bitte Kurs auswählen*</label>
+      <select id="{{ form.course_id.id }}" name="{{ form.course_id.name }}" class="form-select" required>
+        <option value="" disabled selected>Bitte wählen…</option>
+        {% for value, label in form.course_id.choices %}
+          <option value="{{ value }}" {% if form.course_id.data == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="{{ form.email.id }}">E‑Mail</label>
+      {{ form.email(class="form-control", id=form.email.id) }}
+    </div>
+
+    <div>
+      <label for="{{ form.phone.id }}">Telefon</label>
+      {{ form.phone(class="form-control", id=form.phone.id) }}
+    </div>
+
+    {% if info %}
+      <div class="alert alert-info" style="margin-top:1rem;">{{ info }}</div>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}" style="margin-top:1rem;">{{ message }}</div>
+        {% endfor %}
       {% endif %}
-     {% endfor %}
-    </select>
-    <label for="email">E‑Mail*</label>
-    <input id="email" name="email" type="email" required>
-
-    <label for="phone">Telefon</label>
-    <input id="phone" name="phone" placeholder="+41 …">
-
-    <!-- Spam-Honeypot (soll leer bleiben) -->
-    <div style="position:absolute;left:-9999px;">
-      <label>Bitte leer lassen</label>
-      <input name="website">
-    </div>
+    {% endwith %}
 
     <div class="actions" style="margin-top:1rem;">
-      <button class="anmelde-button" type="submit">Anmelden</button>
+      <button type="submit" class="anmelde-button">Anmelden</button>
     </div>
   </form>
 {% endblock %}

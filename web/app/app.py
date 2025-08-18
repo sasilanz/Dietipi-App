@@ -6,6 +6,8 @@ from functools import wraps
 from .models import Base, Participant
 import os, json, requests
 from datetime import datetime
+from forms import RegisterForm
+
 
 try:
     from zoneinfo import ZoneInfo
@@ -28,6 +30,7 @@ def course_label(course_id: str) -> str:
 
 # --- App zuerst! ---
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY")
 
 # --- Konfig / Globals ---
 ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
@@ -107,107 +110,99 @@ def index():
 def kursleitung():
     return render_template("kursleitung.html")
 
-@app.get("/anmeldung")
-def anmeldung_form():
-    return render_template("register.html", courses=load_courses())
+@app.route("/anmeldung", methods=["GET", "POST"])
+def anmeldung():
+    form = RegisterForm()
 
-@app.post("/anmeldung")
-def anmeldung_submit():
-    if not SessionLocal:
-        return {"error": "DB nicht konfiguriert"}, 500
+    # Kurse laden (existierende Funktion)
+    courses = load_courses()
 
-    # Spam-Honeypot: muss leer sein
-    if request.form.get("website"):
-        return ("<p class='error'>Spam erkannt.</p>", 400)
+    # Formular-Kurswahl mit sichtbaren Kursen befüllen
+    form.course_id.choices = [(c["id"], c["label"]) for c in courses if c.get("visible", False)]
 
-    first = (request.form.get("first_name") or "").strip()
-    last  = (request.form.get("last_name") or "").strip()
-    email = (request.form.get("email") or "").strip().lower()
-    phone = (request.form.get("phone") or "").strip() or None
-    # NEU: Kurs-Auswahl lesen
-    course_id = (request.form.get("course_id") or "").strip()
-    selected_course_label = course_label(course_id) if course_id else None
+    info = None
 
-    # Validierung
-    if not first or not last or not email or not course_id:
-        # Kurse für erneutes Rendern bereitstellen
+    if form.validate_on_submit():
+        first = form.first_name.data.strip()
+        last = form.last_name.data.strip()
+        email = form.email.data.strip().lower() if form.email.data else None
+        phone = form.phone.data.strip() if form.phone.data else None
+        course_id = form.course_id.data
+
+        # Kurs-Label ermitteln für DB / Mail
+        selected_course_label = next((c["label"] for c in courses if c["id"] == course_id), None)
+
+        if not email:
+            info = "Falls Sie keine E-Mail-Adresse besitzen, melden Sie sich bitte telefonisch an!"
+            return render_template("register.html", form=form, info=info)
+
+        # Speichern in Datenbank (beste Logik bleibt)
         try:
-            courses = load_courses()
-        except Exception:
-            courses = []
-        return (render_template("register.html",
-                                error="Bitte alle Felder (inkl. Kurs) ausfüllen.",
-                                courses=courses), 400)
+            with SessionLocal() as s:
+                p = Participant(
+                    first_name=first,
+                    last_name=last,
+                    email=email,
+                    phone=phone,
+                    course_name=selected_course_label,
+                )
+                s.add(p)
+                s.commit()
+        except IntegrityError:
+            flash("Diese E-Mail ist bereits registriert.", "error")
+            return render_template("register.html", form=form)
 
-    # Speichern
-    try:
-        with SessionLocal() as s:
-            p = Participant(
-                first_name=first,
-                last_name=last,
-                email=email,
-                phone=phone,
-                course_name=selected_course_label,
-            )
-            s.add(p)
-            s.commit()
-    except IntegrityError:
+        # Bestätigungs‑Mail via Resend
+        subject = "Bestätigung deiner Anmeldung – IT-Kurs Dietikon"
+        html = f"""
+        <p>Hallo {first} {last},</p>
+        <p>Vielen Dank für Deine Anmeldung zum SeniorInnen IT-Kurs in Dietikon.</p>
+        <br><br>
+        <p>Mit diesem Link bekommst Du Infos zum Bezahlen der Kursgebühr:</p>
+        <br><br>
+        <p style="margin:16px 0;">
+        <a href="https://dieti-it.ch/zahlung"
+            style="display:inline-block;
+                    padding:10px 16px;
+                    background-color:#28a745;
+                    color:#ffffff;
+                    text-decoration:none;
+                    border-radius:6px;
+                    font-weight:600;">
+            💳 Jetzt bezahlen
+        </a>
+        </p>
+        <br><br>
+        <p>Falls der Button nicht funktioniert, nutze diesen Link:<br>
+        <a href="https://dieti-it.ch/zahlung">https://dieti-it.ch/zahlung</a>
+        </p>
+        <br>
+        <p>Herzliche Grüsse und bis bald<br><br>Astrid<br>IT-Kurs Dietikon</p>
+        """
+        # Zusatztext nur für kopie-mail:
+        ts = (datetime.now(TZ) if TZ else datetime.now()).strftime("%d.%m.%Y %H:%M")
+        admin_html = f"""
+        <p><strong>Neue Anmeldung</strong></p>
+        <ul>
+        <li><strong>Name:</strong> {first} {last}</li>
+        <li><strong>E-Mail:</strong> {email}</li>
+        <li><strong>Kurs:</strong> {selected_course_label}</li>
+        <li><strong>Datum/Zeit:</strong> {ts}</li>
+        </ul>
+        <hr>    
+        {html}
+        """
+
         try:
-            courses = load_courses()
-        except Exception:
-            courses = []
-        return (render_template("register.html",
-                                error="Diese E‑Mail ist bereits registriert.",
-                                courses=courses), 409)
+            send_email_api(email, subject, html)
+            send_email_api("astrid@dieti-it.ch", f"[Kopie] {subject}", admin_html)
+        except Exception as e:
+            print(f"[WARN] Bestätigungs-Mail fehlgeschlagen: {e}")
 
-    # Bestätigungs‑Mail via Resend
-    subject = "Bestätigung deiner Anmeldung – IT-Kurs Dietikon"
-    html = f"""
-    <p>Hallo {first} {last},</p>
-    <p>Vielen Dank für Deine Anmeldung zum SeniorInnen IT-Kurs in Dietikon.</p>
-    <br><br>
-    <p>Mit diesem Link bekommst Du Infos zum Bezahlen der Kursgebühr:</p>
-    <br><br>
-    <p style="margin:16px 0;">
-    <a href="https://dieti-it.ch/zahlung"
-        style="display:inline-block;
-                padding:10px 16px;
-                background-color:#28a745;
-                color:#ffffff;
-                text-decoration:none;
-                border-radius:6px;
-                font-weight:600;">
-        💳 Jetzt bezahlen
-    </a>
-    </p>
-    <br><br>
-    <p>Falls der Button nicht funktioniert, nutze diesen Link:<br>
-    <a href="https://dieti-it.ch/zahlung">https://dieti-it.ch/zahlung</a>
-    </p>
-    <br>
-    <p>Herzliche Grüsse und bis bald<br><br>Astrid<br>IT-Kurs Dietikon</p>
-    """
-    # Zusatztext nur für kopie-mail:
-    ts = (datetime.now(TZ) if TZ else datetime.now()).strftime("%d.%m.%Y %H:%M")
-    admin_html = f"""
-    <p><strong>Neue Anmeldung</strong></p>
-    <ul>
-    <li><strong>Name:</strong> {first} {last}</li>
-    <li><strong>E-Mail:</strong> {email}</li>
-    <li><strong>Kurs:</strong> {selected_course_label}</li>
-    <li><strong>Datum/Zeit:</strong> {ts}</li>
-    </ul>
-    <hr>    
-    {html}
-    """
+        return render_template("register_success.html", first=first)
 
-    try:
-        send_email_api(email, subject, html)
-        send_email_api("astrid@dieti-it.ch", f"[Kopie] {subject}", admin_html)
-    except Exception as e:
-        print(f"[WARN] Bestätigungs-Mail fehlgeschlagen: {e}")
-
-    return render_template("register_success.html", first=first)
+        # GET oder Fehlerfall
+        return render_template("register.html", form=form)
 
 
 @app.get("/zahlung")
