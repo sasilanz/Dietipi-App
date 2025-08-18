@@ -158,20 +158,19 @@ form button, .anmelde-button {
 }
 
 .kursleitung-text {
-  order: 2; }/* Text kommt zuerst */
+  order: 2; 
+  flex: 1;
+  min-width: 260px;
+}
+
 .kursleitung-bild {
   order: 1; 
+  height: auto; 
   margin-left: 16px; 
   align-self: flex-start;
+  border-radius: 10px; 
+  width: 120px;             /* feste Breite fürs Profilbild */  
 } 
-
-
-.kursleitung-bild {
-  width: 120px;             /* feste Breite fürs Profilbild */
-  height: auto;             /* Höhe automatisch */
-  border-radius: 10px;       /* abgerundete Ecken (optional) */
-  
-}
 
 .l-con-link {
   margin-top: 1rem;              /* etwas Abstand zum Text davor */
@@ -250,16 +249,17 @@ form button, .anmelde-button {
 
   .kursleitung {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* linksbündig */
   }
   .kursleitung-bild {
     order: 0; /* Bild kommt zuerst auf mobilen Geräten */
     margin: 0 0 10px 0; 
   }
   .kursleitung-text {
+    order: 1; /* Text kommt danach */
     width: 100%;
     max-width: 65ch;            /* angenehme Zeilenlänge */
-    text-align: center;         /* Text zentriert */
+    text-align: left;         /* Text linksbündig */
   }
   /* Navigation im Mobile untereinander */
   
