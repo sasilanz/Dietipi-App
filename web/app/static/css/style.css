@@ -168,10 +168,10 @@ form button, .anmelde-button {
 }
 
 .kursleitung-bild {
-  width: 148px;             /* feste Breite fürs Profilbild */
+  width: 120px;             /* feste Breite fürs Profilbild */
   height: auto;             /* Höhe automatisch */
   border-radius: 10px;       /* abgerundete Ecken (optional) */
-  object-fit: cover;       /* Bild füllt den Container aus */
+  object-fit: contain;       /* Bild füllt den Container aus */
 }
 
 .l-con-link {
