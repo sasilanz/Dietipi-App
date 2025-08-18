@@ -6,7 +6,7 @@ from functools import wraps
 from .models import Base, Participant
 import os, json, requests
 from datetime import datetime
-from forms import RegisterForm
+from .forms import RegisterForm
 
 
 try:
