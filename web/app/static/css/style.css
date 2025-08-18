@@ -172,25 +172,35 @@ form button, .anmelde-button {
   width: 120px;             /* feste Breite fürs Profilbild */  
 } 
 
+/* Styling für l-con-link in Kursleitung */
 .l-con-link {
   margin-top: 1rem;              /* etwas Abstand zum Text davor */
 }
 
+/* Button-Styling für den Firmen-Link */
 .l-con-link .link-mit-icon {
-  display: inline;          /* Icon + Text schön in einer Zeile */
-  text-decoration: none;         /* wie dein restliches Design – keine Unterstreichung */
-  color: inherit;                /* übernimmt die normale Textfarbe */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #0077cc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #0077cc;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .l-con-link .link-mit-icon:hover {
-  text-decoration: underline;    /* Hover wie bei Links üblich */
+  background-color: #0077cc;
+  color: #fff;
 }
 
 .l-con-link .icon {
-  width: 20px;
-  margin-right: 6px;
+  width: 16px;   /* etwas kleiner als die Navi-Icons */
   height: auto;
-  display: inline;                /* verhindert zusätzliche Grundlinienlücke */
+  display: inline-block;
   vertical-align: middle;
 }
 
