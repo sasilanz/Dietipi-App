@@ -259,10 +259,7 @@ form button, .anmelde-button {
     text-align: center;         /* Text zentriert */
   }
   /* Navigation im Mobile untereinander */
-  .nav-group {
-    flex-direction: column;
-    align-items: stretch;     /* lässt .nav über die volle Breite gehen */
-  }
+  
   .nav {
     flex-direction: column;   /* Links untereinander stapeln */
     align-items: flex-end;     /* Block rechts asrichten */
