@@ -16,16 +16,6 @@ h1 {
     color: #333;
 }
 
-nav a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #0077cc;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
 section {
     background: white;
     padding: 15px;
@@ -109,6 +99,7 @@ form .row > div {
 form .actions {
   margin-top: 0.5rem;
 }
+
 form button, .anmelde-button {
   padding: 0.9rem 1.6rem;
   font-size: 1.2rem;
@@ -140,18 +131,22 @@ form button, .anmelde-button {
 }
 
 /* Navigation */
+/* Kleine Buttons für die Navi-Links (nicht Startbutton) */
 .nav a {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: #333;
+  color: #0077cc;
   text-decoration: none;
-  padding: 0.4rem 0.6rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #0077cc;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
+  background-color: #fff;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .nav a:hover {
-  background-color: #e6f0fa;
+  background-color: #0077cc;
+  color: #fff;
 }
 
 .kursleitung {
