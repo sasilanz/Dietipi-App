@@ -258,6 +258,17 @@ form button, .anmelde-button {
     max-width: 65ch;            /* angenehme Zeilenlänge */
     text-align: center;         /* Text zentriert */
   }
+  /* Navigation im Mobile untereinander */
+  .nav {
+    flex-direction: column;   /* Links untereinander stapeln */
+    align-items: stretch;     /* volle Breite nutzen */
+    gap: 0.6rem;
+  }
 
+  .nav a {
+    display: block;           /* jeder Link ein Block */
+    width: 100%;              /* volle Breite */
+    text-align: left;         /* Text linksbündig */
+  }
 
 }
