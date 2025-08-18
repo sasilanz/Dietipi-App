@@ -163,15 +163,16 @@ form button, .anmelde-button {
 }
 
 .kursleitung-text {
-  flex: 1;                  /* nimmt den restlichen Platz ein */
-  min-width: 260px;         /* sorgt dafür, dass Text nicht zu schmal wird */
-}
+  order: 1; }/* Text kommt zuerst */
+.kursleitung-bild {
+  order: 2; margin-left: 16px; } /* Bild kommt danach */
+
 
 .kursleitung-bild {
   width: 120px;             /* feste Breite fürs Profilbild */
   height: auto;             /* Höhe automatisch */
   border-radius: 10px;       /* abgerundete Ecken (optional) */
-  object-fit: contain;       /* Bild füllt den Container aus */
+  
 }
 
 .l-con-link {
@@ -179,9 +180,7 @@ form button, .anmelde-button {
 }
 
 .l-con-link .link-mit-icon {
-  display: inline-flex;          /* Icon + Text schön in einer Zeile */
-  align-items: center;
-  gap: 6px;                      /* Abstand zwischen Icon und Text */
+  display: inline;          /* Icon + Text schön in einer Zeile */
   text-decoration: none;         /* wie dein restliches Design – keine Unterstreichung */
   color: inherit;                /* übernimmt die normale Textfarbe */
 }
@@ -192,8 +191,9 @@ form button, .anmelde-button {
 
 .l-con-link .icon {
   width: 20px;
-  height: 20px;
-  display: block;                /* verhindert zusätzliche Grundlinienlücke */
+  margin-right: 6px;
+  height: auto;
+  display: inline;                /* verhindert zusätzliche Grundlinienlücke */
   vertical-align: middle;
 }
 
@@ -254,9 +254,14 @@ form button, .anmelde-button {
     flex-direction: column;
     align-items: center;
   }
+  .kursleitung-bild {
+    order: 0; /* Bild kommt zuerst auf mobilen Geräten */
+    margin: 0 0 10px 0; 
+  }
   .kursleitung-text {
     width: 100%;
     max-width: 65ch;            /* angenehme Zeilenlänge */
+    text-align: center;         /* Text zentriert */
   }
 
 
