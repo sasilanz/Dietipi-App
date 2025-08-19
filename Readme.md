@@ -180,6 +180,7 @@ Zugriff auf Webapp/Adminer läuft dann über den Tunnel.
 
 👉 Damit gibt es eine einzige Quelle für alle Services (Base), und  mit kleinen Overrides steuert man, wie sie nach außen erreichbar sind.
 <br><br>
+
 ## CI/CD Deployment
 ### DEV (MacMini)
 ```bash
@@ -190,8 +191,12 @@ docker compose -f compose.yml -f compose.dev.yml up -d --build
 
 ### PROD (Pi)
 ```bash
+cd /home/pi/Dietipi-App
+git pull
 docker compose -f compose.yml -f compose.prod.yml up -d --build
 ```
+
+
 
 ### Checkliste
 ## PROD auf dem Pi
@@ -203,32 +208,35 @@ docker compose -f compose.yml -f compose.prod.yml config >/dev/null || exit 1
 docker compose -f compose.yml -f compose.prod.yml up -d --build
 docker compose -f compose.yml -f compose.prod.yml ps
 ````
-### Optional logs
+
+
+### CHECKS
+Prüfen, ob .env im Projekt-Root vorhanden ist:
 ```bash
+test -f .env && echo "✅ .env vorhanden" || echo "❌ .env fehlt!"
+````
+# Tunnel status
+docker compose -f compose.yml -f compose.prod.yml logs -n 30 cloudflared
+
+# Zustand prüfen
+```bash
+docker compose -f compose.yml -f compose.prod.yml ps
+
+# Webapp reachable aus dem Netz?
+curl -I https://dieti-it.ch
+
+### LOGS
 docker compose -f compose.yml -f compose.prod.yml logs -n 50 webapp
 docker compose -f compose.yml -f compose.prod.yml logs -n 50 cloudflared
 
 
-### deploy-script auf dem Pi
-deploy.sh (im Repo ablegen, einmal ausführbar machen chmod +x deploy.sh)
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
-cd "$(dirname "$0")"
-echo "▶ git pull"; git pull
-[ -f web/.env ] || { echo "❌ web/.env fehlt"; exit 1; }
-echo "▶ compose check"; docker compose -f compose.yml -f compose.prod.yml config >/dev/null
-echo "▶ deploy"; docker compose -f compose.yml -f compose.prod.yml up -d --build
-echo "✅ done"; docker compose -f compose.yml -f compose.prod.yml ps
-````
-Aufruf mit 
-```bash
-./deploy.sh
-````
-### CHECKS
+### GIT Spickzettel
 
-# Tunnel status
-docker compose -f compose.yml -f compose.prod.yml logs -n 30 cloudflared
+💡 Tipp (falls VSCode beim commiten hängenbleibt):
+Im VS Code-Terminal direkt committen:
+```bash
+git add -A
+git commit -m "kurze message"
+git push
+```
 
-# Webapp reachable aus dem Netz?
-curl -I https://dieti-it.ch
