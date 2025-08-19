@@ -1,0 +1,56 @@
+# compose.yml  (BASE)
+name: dieti-it
+
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: kursdb
+      MYSQL_USER: kursuser
+      MYSQL_PASSWORD: kurspass
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -prootpass || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - app
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:4
+    depends_on:
+      db:
+        condition: service_healthy
+    # nur intern im Compose-Netz sichtbar
+    expose:
+      - "8080"
+    networks:
+      - app
+    restart: unless-stopped
+
+  webapp:
+    build:
+      context: ./web
+    env_file: ./web/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    # nur intern im Compose-Netz sichtbar
+    expose:
+      - "5000"
+    volumes:
+      - ./web/app:/app/app
+    networks:
+      - app
+    restart: unless-stopped
+
+networks:
+  app:
+
+volumes:
+  dbdata:
+  

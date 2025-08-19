@@ -1,0 +1,14 @@
+# compose.dev.yml
+services:
+  webapp:
+    ports:
+      - "127.0.0.1:5001:5000"   # Browser: http://127.0.0.1:5001
+
+  adminer:
+    ports:
+      - "127.0.0.1:8081:8080"   # Browser: http://127.0.0.1:8081
+
+  db:
+    # Optional – nur falls du mit lokalem MySQL-Client zugreifen willst
+    ports:
+      - "127.0.0.1:3306:3306"

@@ -128,3 +128,52 @@ docker compose build webapp          # Web-Image neu bauen
 docker compose up -d webapp          # Web neu starten
 docker compose logs -f webapp        # Web-Logs ansehen
 ```
+## 7. CI/DC Workflow
+### Übersicht:
+[Internet/Browser]
+        │
+        ▼
+  Cloudflare Edge
+        │   (Tunnel)
+        ▼
++-------------------+
+|  cloudflared      |  <-- outbound Tunnel, keine Ports
++-------------------+
+          │  routes intern auf http://webapp:5000
+          ▼
++-------------------+           +------------------+
+|     webapp        | <-------> |       db         |
+| :5000 (-> Host 5001)          | :3306 (-> Host)  |
++-------------------+           +------------------+
+          ▲
+          │
+          │                 +------------------+
+          └────────────────▶ |     adminer     |
+                              | :8080 (-> Host 8081) |
+                              +------------------+
+
+### Compose-Dateien übersicht:
+
+repo-root/
+├─ Dockerfile
+├─ README.md
+├─ .env.example
+├─ compose.yml          # Base: db + adminer + webapp
+├─ compose.dev.yml      # DEV-Override: Ports auf 127.0.0.1 (Mac)
+└─ compose.prod.yml     # PROD-Override: Cloudflared (Pi)
+
+### Erklärungen zum compose-split und Aufbau
+•	Base (compose.yml)
+Enthält db, adminer, webapp — also alles, was man in beiden Umgebungen braucht.
+Ports standardmäßig nur intern (expose), damit nichts direkt offen ist.<br>
+•	Dev (compose.dev.yml)
+Öffnet Ports für localhost:
+	•	127.0.0.1:5001 -> webapp:5000
+	•	127.0.0.1:8081 -> adminer:8080
+	•	(Optional) 127.0.0.1:3306 -> db:3306 falls du mit einem lokalen Client arbeiten willst.
+  <br>
+•	Prod (compose.prod.yml)
+Fügt cloudflared hinzu und verzichtet komplett auf Ports nach außen.
+Zugriff auf Webapp/Adminer läuft dann über den Tunnel.
+
+👉 Damit gibt es eine einzige Quelle für alle Services (Base), und  mit kleinen Overrides steuert man, wie sie nach außen erreichbar sind.
