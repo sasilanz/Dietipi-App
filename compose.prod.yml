@@ -2,11 +2,14 @@
 services:
   webapp:
     command: ["gunicorn","-w","2","-b","0.0.0.0:5000","app.app:app"]
+
   cloudflared:
     image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    command: ["tunnel","--no-autoupdate","run","--token","${CLOUDFLARE_TUNNEL_TOKEN}"]
     depends_on:
-      - webapp
-    networks:
-      - default
+      webapp:
+        condition: service_started
+      adminer:
+        condition: service_started
+    networks: [app]     # <<< wichtig: gleiches Netz wie in compose.yml
     restart: unless-stopped
