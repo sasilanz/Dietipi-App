@@ -149,28 +149,23 @@ form button, .anmelde-button {
   color: #fff;
 }
 
+/* Kursleitung – simples, einspaltiges Layout */
 .kursleitung {
-  display: flex;
-  flex-wrap: wrap;          /* sorgt dafür, dass Bild/Text umbrechen können */
-  align-items: flex-start;  /* oben ausrichten */
-  gap: 16px;                /* Abstand zwischen Text und Bild */
-  margin-bottom: 2rem;
-}
-
-.kursleitung-text {
-  order: 2; 
-  flex: 1;
-  min-width: 260px;
+  margin-bottom: 2rem;   /* etwas Luft nach unten */
 }
 
 .kursleitung-bild {
-  order: 1; 
-  height: auto; 
-  margin-left: 16px; 
-  align-self: flex-start;
-  border-radius: 10px; 
-  width: 120px;             /* feste Breite fürs Profilbild */  
-} 
+  float: left;
+  width: 120px;
+  height: auto;
+  border-radius: 10px;
+  margin: 0 16px 12px 0;  /* rechts Abstand, unten auch etwas */
+}
+
+.kursleitung-text {
+  max-width: 65ch;       /* angenehme Zeilenlänge (optional) */
+  text-align: left;      /* explizit linksbündig */
+}
 
 /* Styling für l-con-link in Kursleitung */
 .l-con-link {
@@ -257,20 +252,7 @@ form button, .anmelde-button {
   background-color: #218838;
   }
 
-  .kursleitung {
-    flex-direction: column;
-    align-items: flex-start; /* linksbündig */
-  }
-  .kursleitung-bild {
-    order: 0; /* Bild kommt zuerst auf mobilen Geräten */
-    margin: 0 0 10px 0; 
-  }
-  .kursleitung-text {
-    order: 1; /* Text kommt danach */
-    width: 100%;
-    max-width: 65ch;            /* angenehme Zeilenlänge */
-    text-align: left;         /* Text linksbündig */
-  }
+  
   /* Navigation im Mobile untereinander */
   
   .nav {
@@ -286,5 +268,10 @@ form button, .anmelde-button {
     width: auto;              /* volle Breite */
     text-align: left;         /* Text linksbündig */
   }
-
+  
+  .kursleitung-bild {
+    float: none;           /* Float deaktivieren */
+    display: block;        /* eigenes Blockelement */
+    margin: 0 0 12px 0;    /* nur unten Abstand */
+  }
 }
