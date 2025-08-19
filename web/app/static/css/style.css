@@ -110,8 +110,8 @@ form button, .anmelde-button {
 
 /* Hinweistext für fehlende E-Mail */
 .form-hint {
-  background: #fff8e1;       /* zartes Gelb */
-  border: 1px solid #ffe082; /* Kontrast */
+  background: #e8f4fd;       /* zartes Gelb */
+  border: 1px solid #b6e0fe; /* Kontrast */
   padding: .8rem 1rem;
   border-radius: .5rem;
   margin: 0 0 1rem 0;
