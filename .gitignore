@@ -1,5 +1,3 @@
 # sensitive .env files ignorieren
 .env
-.env.*
-web/.env
 !.env.example

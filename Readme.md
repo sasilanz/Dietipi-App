@@ -128,6 +128,8 @@ docker compose build webapp          # Web-Image neu bauen
 docker compose up -d webapp          # Web neu starten
 docker compose logs -f webapp        # Web-Logs ansehen
 ```
+
+
 ## 7. CI/DC Workflow
 ### Übersicht:
 [Internet/Browser]
@@ -177,3 +179,48 @@ Fügt cloudflared hinzu und verzichtet komplett auf Ports nach außen.
 Zugriff auf Webapp/Adminer läuft dann über den Tunnel.
 
 👉 Damit gibt es eine einzige Quelle für alle Services (Base), und  mit kleinen Overrides steuert man, wie sie nach außen erreichbar sind.
+<br><br>
+## CI/CD Deployment
+### DEV (MacMini)
+```bash
+docker compose -f compose.yml -f compose.dev.yml up -d --build
+```
+	•	Webapp: http://127.0.0.1:5001
+	•	Adminer: http://127.0.0.1:8081
+
+### PROD (Pi)
+```bash
+docker compose -f compose.yml -f compose.prod.yml up -d --build
+```
+
+### Checkliste
+```bash
+cd /home/pi/Dietipi-App
+git pull
+test -f web/.env && echo "✅ env ok" || (echo "❌ web/.env fehlt"; exit 1)
+docker compose -f compose.yml -f compose.prod.yml config >/dev/null || exit 1
+docker compose -f compose.yml -f compose.prod.yml up -d --build
+docker compose -f compose.yml -f compose.prod.yml ps
+````
+### Optional logs
+```bash
+docker compose -f compose.yml -f compose.prod.yml logs -n 50 webapp
+docker compose -f compose.yml -f compose.prod.yml logs -n 50 cloudflared
+
+
+### deploy-script auf dem Pi
+deploy.sh (im Repo ablegen, einmal ausführbar machen chmod +x deploy.sh)
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+echo "▶ git pull"; git pull
+[ -f web/.env ] || { echo "❌ web/.env fehlt"; exit 1; }
+echo "▶ compose check"; docker compose -f compose.yml -f compose.prod.yml config >/dev/null
+echo "▶ deploy"; docker compose -f compose.yml -f compose.prod.yml up -d --build
+echo "✅ done"; docker compose -f compose.yml -f compose.prod.yml ps
+````
+Aufruf mit 
+```bash
+./deploy.sh
+````

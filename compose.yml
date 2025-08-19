@@ -35,7 +35,7 @@ services:
   webapp:
     build:
       context: ./web
-    env_file: ./web/.env
+    env_file: .env
     depends_on:
       db:
         condition: service_healthy
@@ -53,4 +53,3 @@ networks:
 
 volumes:
   dbdata:
-  
