@@ -159,7 +159,7 @@ form button, .anmelde-button {
   width: 120px;
   height: auto;
   border-radius: 10px;
-  margin: 0 16px 12px 0;  /* rechts Abstand, unten auch etwas */
+  margin: 0 0 12px 16px;  /* rechts Abstand, unten auch etwas */
 }
 
 .kursleitung-text {
