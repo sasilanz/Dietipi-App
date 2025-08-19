@@ -151,16 +151,22 @@ form button, .anmelde-button {
 }
 
 /* Kursleitung – simples, einspaltiges Layout */
-.kursleitung { }
-.kursleitung p { max-width: 75ch; } /* zentriert den Text, max Breite für bessere Lesbarkeit */
 
-.kursleitung-bild {
-  float: right;
-  width: 120px;
-  height: auto;
-  border-radius: 10px;
-  margin: 0 0 12px 16px;  /* rechts Abstand, unten auch etwas */
+.kursleitung p { max-width: 75ch; } /* gute Zeilenlänge */
+
+section.kursleitung {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
 }
+
+section.kursleitung img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 10px;  /* abgerundeten Ecken  */
+  flex: 0 0 auto;  
+}
+
 
 
 
