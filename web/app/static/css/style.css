@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    max-width: 800px;
+    max-width: 1200px;
     margin: auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -151,9 +151,11 @@ form button, .anmelde-button {
 
 /* Kursleitung – simples, einspaltiges Layout */
 .kursleitung {
-  margin-bottom: 2rem;   /* etwas Luft nach unten */
+  margin-bottom: 2rem;
+  max-width: 65ch;      /* angenehme Textbreite */
+  text-align: left;   /* etwas Luft nach unten */
 }
-
+ 
 .kursleitung-bild {
   float: right;
   width: 120px;
@@ -162,10 +164,7 @@ form button, .anmelde-button {
   margin: 0 0 12px 16px;  /* rechts Abstand, unten auch etwas */
 }
 
-.kursleitung-text {
-  max-width: 65ch;       /* angenehme Zeilenlänge (optional) */
-  text-align: left;      /* explizit linksbündig */
-}
+
 
 /* Styling für l-con-link in Kursleitung */
 .l-con-link {
@@ -202,6 +201,11 @@ form button, .anmelde-button {
 
 /* === Mobile-Feinschliff fürs Anmeldeformular === */
 @media (max-width: 768px) {
+
+  body {
+    max-width: 95%;   /* bei kleineren Displays flexibel */
+  }
+  
   /* Der Kasten bleibt kompakt und gut lesbar */
   form {
     max-width: 100%;
