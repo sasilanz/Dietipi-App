@@ -194,6 +194,7 @@ docker compose -f compose.yml -f compose.prod.yml up -d --build
 ```
 
 ### Checkliste
+## PROD auf dem Pi
 ```bash
 cd /home/pi/Dietipi-App
 git pull
@@ -224,3 +225,10 @@ Aufruf mit
 ```bash
 ./deploy.sh
 ````
+### CHECKS
+
+# Tunnel status
+docker compose -f compose.yml -f compose.prod.yml logs -n 30 cloudflared
+
+# Webapp reachable aus dem Netz?
+curl -I https://dieti-it.ch

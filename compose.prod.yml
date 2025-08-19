@@ -1,5 +1,7 @@
 # compose.prod.yml
 services:
+  webapp:
+    command: ["gunicorn","-w","2","-b","0.0.0.0:5000","app.app:app"]
   cloudflared:
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
