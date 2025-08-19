@@ -4,20 +4,20 @@ name: dieti-it
 services:
   db:
     image: mysql:8.4
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: kursdb
-      MYSQL_USER: kursuser
-      MYSQL_PASSWORD: kurspass
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -prootpass || exit 1"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p${DB_ROOT_PASSWORD} || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 20
-    networks:
-      - app
+    networks: [app]
     restart: unless-stopped
 
   adminer:
@@ -25,31 +25,25 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # nur intern im Compose-Netz sichtbar
-    expose:
-      - "8080"
-    networks:
-      - app
+    expose: ["8080"]      # nur intern im Compose-Netz
+    networks: [app]
     restart: unless-stopped
 
   webapp:
     build:
       context: ./web
-    env_file: .env
+    env_file: .env        # zentrale .env im Repo-Root
     depends_on:
       db:
         condition: service_healthy
-    # nur intern im Compose-Netz sichtbar
-    expose:
-      - "5000"
+    expose: ["5000"]      # nur intern
     volumes:
       - ./web/app:/app/app
-    networks:
-      - app
+    networks: [app]
     restart: unless-stopped
 
 networks:
-  app:
+  app: {}
 
 volumes:
   dbdata:
