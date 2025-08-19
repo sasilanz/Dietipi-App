@@ -133,7 +133,7 @@ def anmeldung():
         selected_course_label = next((c["label"] for c in courses if c["id"] == course_id), None)
 
         if not email:
-            info = "Falls Sie keine E-Mail-Adresse besitzen, melden Sie sich bitte telefonisch an!"
+            info = "Falls Sie keine E-Mail-Adresse besitzen, melden Sie sich bitte telefonisch unter 076 497 42 62 an!"
             return render_template("register.html", form=form, info=info)
 
         # Speichern in Datenbank (beste Logik bleibt)
