@@ -107,6 +107,18 @@ form button, .anmelde-button {
   border-radius: 8px;
 }
 
+
+/* Hinweistext für fehlende E-Mail */
+.form-hint {
+  background: #fff8e1;       /* zartes Gelb */
+  border: 1px solid #ffe082; /* Kontrast */
+  padding: .8rem 1rem;
+  border-radius: .5rem;
+  margin: 0 0 1rem 0;
+}
+.form-hint strong { font-weight: 700; }
+
+
 .nav-group {
   display: flex;
   align-items: center;
