@@ -155,7 +155,7 @@ form button, .anmelde-button {
 }
 
 .kursleitung-bild {
-  float: left;
+  float: right;
   width: 120px;
   height: auto;
   border-radius: 10px;
@@ -268,7 +268,7 @@ form button, .anmelde-button {
     width: auto;              /* volle Breite */
     text-align: left;         /* Text linksbündig */
   }
-  
+
   .kursleitung-bild {
     float: none;           /* Float deaktivieren */
     display: block;        /* eigenes Blockelement */
