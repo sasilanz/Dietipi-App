@@ -4,15 +4,17 @@
 <section>
   <h1>Unterlagen – Grundkurs</h1>
   <p>Hier findest Du die Unterlagen für jede Lektion</p>
-  <ul class="lesson-list">
+<ul class="lesson-list">
   {% for l in lessons %}
     <li class="lesson-item">
       <span class="lesson-label">{{ l.label }}</span>
-      <a class="home-button" href="{{ l.handout_url }}" target="_blank" rel="noopener">
-        Handout (PDF)
-      </a>
+      <a class="home-button" href="{{ l.handout_url }}" target="_blank" rel="noopener">Handout (PDF)</a>
+      {% if l.uebungen_url %}
+        <a class="home-button" href="{{ l.uebungen_url }}" target="_blank" rel="noopener">Übungen (PDF)</a>
+      {% endif %}
     </li>
   {% endfor %}
+</ul>
 </ul>
 </section>
 {% endblock %}
