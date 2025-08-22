@@ -37,6 +37,8 @@ app.secret_key = os.getenv("SECRET_KEY")
 # --- Konfig / Globals ---
 ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
 
+app.config["DOCS_ROOT"] = os.environ.get("DOCS_ROOT", "/data/docs")
+
 # DB-Engine
 DB_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DB_URL, pool_pre_ping=True) if DB_URL else None
