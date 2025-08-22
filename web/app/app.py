@@ -371,3 +371,7 @@ def admin_home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.get("/unterlagen")
+def unterlagen():
+    return render_template("unterlagen.html")
