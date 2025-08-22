@@ -379,8 +379,10 @@ def unterlagen():
 
 @app.get("/unterlagen/grundkurs")
 def unterlagen_grundkurs():
-    lessons = [
-        {"label": "Lektion 1", "handout_url": "#"},
-        {"label": "Lektion 2", "handout_url": "#"},
-    ]
+    lessons = []
+    for i in range(1, 3):  # später z.B. 17 für 16 Lektionen
+        lessons.append({
+            "label": f"Lektion {i}",
+            "handout_url": "#"
+        })
     return render_template("unterlagen_grundkurs.html", lessons=lessons)
