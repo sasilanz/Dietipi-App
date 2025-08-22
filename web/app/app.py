@@ -106,6 +106,10 @@ def send_email_api(to_email: str, subject: str, html: str, text: str = ""):
     r.raise_for_status()
 
 # --- Routen ---
+@app.get("/docs/<path:filename>")
+def serve_docs(filename):
+    return send_from_directory(app.config["DOCS_ROOT"], filename, as_attachment=False)
+
 @app.get("/")
 def index():
     return render_template("index.html")
