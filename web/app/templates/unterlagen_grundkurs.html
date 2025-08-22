@@ -3,6 +3,16 @@
 {% block content %}
 <section>
   <h1>Unterlagen – Grundkurs</h1>
-  <p>Hier kommen später die Lektionen mit Handouts hin.</p>
+  <p>Hier findest Du die Unterlagen für jede Letion</p>
+  <ul>
+    {% for l in lessons %}
+      <li style="margin-bottom:.6rem;">
+        <strong>{{ l.label }}</strong>
+        <a class="anmelde-button" href="{{ l.handout_url }}" target="_blank" rel="noopener">
+          Handout (PDF)
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 </section>
 {% endblock %}
