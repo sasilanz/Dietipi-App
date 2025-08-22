@@ -375,3 +375,8 @@ if __name__ == "__main__":
 @app.get("/unterlagen")
 def unterlagen():
     return render_template("unterlagen.html")
+
+@app.get("/unterlagen/grundkurs")
+def unterlagen_grundkurs():
+    return render_template("unterlagen_grundkurs.html")
+
