@@ -8,9 +8,9 @@
   {% for l in lessons %}
     <li class="lesson-item">
       <span class="lesson-label">{{ l.label }}</span>
-      <a class="home-button" href="{{ l.handout_url }}" target="_blank" rel="noopener">Handout (PDF)</a>
+      <a class="home-button" href="/docs/grundkurs/L01_handout.pdf" target="_blank" rel="noopener">Handout (PDF)</a>
       {% if l.uebungen_url %}
-        <a class="home-button" href="{{ l.uebungen_url }}" target="_blank" rel="noopener">Übungen (PDF)</a>
+        <a class="home-button" href="/docs/grundkurs/L02_handout.pdf" target="_blank" rel="noopener">Übungen (PDF)</a>
       {% endif %}
     </li>
   {% endfor %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort, flash
+from flask import Flask, render_template, request, redirect, url_for, abort, flash, send_from_directory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
@@ -17,6 +17,8 @@ except Exception:
 
 # JSON liegt in web/app/content/alle_kurse.json
 COURSE_JSON = os.path.join(os.path.dirname(__file__), "content", "alle_kurse.json")
+
+app.config["DOCS_ROOT"] = os.environ.get("DOCS_ROOT", "/data/docs")
 
 def load_courses():
     with open(COURSE_JSON, "r", encoding="utf-8") as f:
@@ -371,6 +373,11 @@ def admin_home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+@app.get("/docs/<path:filename>")
+def serve_docs(filename):
+    return send_from_directory(app.config["DOCS_ROOT"], filename, as_attachment=False)
 
 @app.get("/unterlagen")
 def unterlagen():

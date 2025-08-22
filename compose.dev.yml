@@ -3,6 +3,8 @@ services:
   webapp:
     ports:
       - "127.0.0.1:5001:5000"   # Browser: http://127.0.0.1:5001
+    volumes:
+      - ./docs:/data/docs:ro
 
   adminer:
     ports:
