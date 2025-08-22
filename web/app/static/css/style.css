@@ -39,6 +39,23 @@ section {
 .anmelde-button:hover {
     background-color: #005fa3;
 }
+
+.lesson-list {
+  list-style: none;
+  padding: 0;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Abstand zwischen Label und Button */
+  margin-bottom: 1rem;
+}
+
+.lesson-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
     
 /* ===== Anmeldung Formular ===== */
 form {

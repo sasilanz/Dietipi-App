@@ -3,16 +3,16 @@
 {% block content %}
 <section>
   <h1>Unterlagen – Grundkurs</h1>
-  <p>Hier findest Du die Unterlagen für jede Letion</p>
-  <ul>
-    {% for l in lessons %}
-      <li style="margin-bottom:.6rem;">
-        <strong>{{ l.label }}</strong>
-        <a class="anmelde-button" href="{{ l.handout_url }}" target="_blank" rel="noopener">
-          Handout (PDF)
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+  <p>Hier findest Du die Unterlagen für jede Lektion</p>
+  <ul class="lesson-list">
+  {% for l in lessons %}
+    <li class="lesson-item">
+      <span class="lesson-label">{{ l.label }}</span>
+      <a class="anmelde-button" href="{{ l.handout_url }}" target="_blank" rel="noopener">
+        Handout (PDF)
+      </a>
+    </li>
+  {% endfor %}
+</ul>
 </section>
 {% endblock %}
