@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, abort, flash, send_file
+from flask import Flask, render_template, request, redirect, url_for, abort, flash, send_file, send_from_directory 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 from functools import wraps
 from .models import Base, Participant
-import os, json, requests
+import os, json, requests, re, yaml
 from datetime import datetime
 from .forms import RegisterForm
 from .utils.content_loader import load_json
@@ -36,6 +36,29 @@ def course_label(course_id: str) -> str:
             return c.get("label", course_id)
     return course_id
 
+def _split_front_matter(md_text: str):
+    if md_text.startswith("---"):
+        parts = md_text.split("\n---", 1)
+        if len(parts) == 2:
+            fm = parts[0][3:]  # ohne führendes ---
+            body = parts[1].lstrip("\n")
+            try:
+                meta = yaml.safe_load(fm) or {}
+            except Exception:
+                meta = {}
+            return meta, body
+    return {}, md_text
+
+def _rewrite_relative_links(md_text: str, content_slug: str, lesson_id: str):
+    # ./foo -> /u-asset/<course>/<lesson_id>/foo
+    base_lesson = url_for("unterlagen_asset", course=content_slug, subpath=f"{lesson_id}/")
+    md_text = md_text.replace("](./", f"]({base_lesson}")
+
+    # ../assets/foo -> /u-asset/<course>/assets/foo
+    base_assets = url_for("unterlagen_asset", course=content_slug, subpath="assets/")
+    md_text = md_text.replace("](../assets/", f"]({base_assets}")
+
+    return md_text
 
 # --- App / Config ---
 app = Flask(__name__)

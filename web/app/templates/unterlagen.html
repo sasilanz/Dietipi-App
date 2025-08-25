@@ -2,8 +2,12 @@
 {% block content %}
   <a class="breadcrumb" href="{{ url_for('index') }}">← Start</a>
   <h1>Unterlagen</h1>
-
-  {% if courses %}
+  <section>
+    <h2>Hier entsteht die Übersicht der Kursunterlagen</h2>
+    <p>Im Moment sind noch keine Kursunterlagen verfügbar.</p>
+  </section>
+  <section>
+    {% if courses %}
     <ul class="kursliste">
       {% for c in courses %}
         <li class="kursitem">
@@ -17,4 +21,6 @@
   {% else %}
     <p>Noch keine Kurse mit Unterlagen sichtbar.</p>
   {% endif %}
+  </section>
+  
 {% endblock %}

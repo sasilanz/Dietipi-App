@@ -1,0 +1,9 @@
+<ul class="lektionen">
+  {% for lesson in lektionen %}
+    <li>
+      <a href="{{ url_for('unterlagen_lektion', slug=kurs_id, lesson_id=lesson.id) }}">
+        {{ lesson.titel }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-  <p><a href="{{ url_for('unterlagen_kurs', slug=kurs.id) }}">← Zurück zu {{ kurs.label }}</a></p>
-  <h1>{{ meta.title or meta.titel or meta.id }}</h1>
+  <p><a href="{{ url_for('unterlagen_kurs', slug=kurs_id) }}">← Zurück zu {{ kurs_id }}</a></p>
+  <h1>{{ meta.title }}</h1>
   <div class="lesson-body">
     {{ html|safe }}
   </div>
+  <h3>Dokumente</h3>
+  <ul>
+    {% for doc in dokumente %}
+      <li><a href="{{ doc.url }}">{{ doc.name }}</a></li>
+    {% endfor %}
+  </ul>
 {% endblock %}
