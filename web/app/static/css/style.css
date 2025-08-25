@@ -396,6 +396,27 @@ section.kursleitung img {
   border-radius: 6px;   /* leichte Abrundung, wirkt harmonischer */
 }
 
+/* PDF/Flyer responsive einbetten */
+.pdf-wrap {
+  width: 100%;
+  max-width: 100%;
+}
+
+.pdf-viewer {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 80vh;         /* Desktop: angenehm hoch */
+  border: none;
+}
+
+/* Optional: kleiner Hinweislink unter dem Viewer */
+.pdf-actions {
+  margin-top: .5rem;
+  font-size: .9rem;
+}
+
+
 /* === Mobile-Feinschliff fürs Anmeldeformular === */
 @media (max-width: 768px) {
 
@@ -474,5 +495,10 @@ section.kursleitung img {
     float: none;           /* Float deaktivieren */
     display: block;        /* eigenes Blockelement */
     margin: 0 0 12px 0;    /* nur unten Abstand */
+  }
+
+    /* PDF/Flyer auf Mobile kleiner halten */
+  .pdf-viewer {
+    height: 60vh;      /* z.B. 60% der Bildschirmhöhe */
   }
 }
