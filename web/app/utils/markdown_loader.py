@@ -1,4 +1,3 @@
-# web/app/utils/markdown_loader.py
 from pathlib import Path
 import yaml
 import markdown
@@ -68,11 +67,14 @@ def render_lesson(slug: str, lesson_id: str):
     html = markdown.markdown(body, extensions=["extra", "fenced_code", "tables"])
     return meta, html, md_path.parent
 
-def rewrite_relative_urls(html: str, slug: str) -> str:
+def rewrite_relative_urls(html: str, slug: str, lesson_id: str | None = None) -> str:
     """
     Wandelt relative href/src (./bild.png, ../assets/x.pdf, foo.jpg) in
     /unterlagen/<slug>/media/<pfad> um.
     Lässt absolute URLs, /root-Pfade, #anchors, mailto:, tel: unverändert.
+
+    Wenn die Datei im selben Lektionsordner liegt und lesson_id gesetzt ist,
+    wird automatisch '<lesson_id>/' vorangestellt.
     """
     base = f"/unterlagen/{slug}/media/"
 
@@ -82,12 +84,19 @@ def rewrite_relative_urls(html: str, slug: str) -> str:
 
     def repl(m):
         url = m.group('url')
+
         # ./... -> ...
         while url.startswith("./"):
             url = url[2:]
-        # ../assets/... -> assets/...
+        # ../whatever -> whatever (wir referenzieren immer relativ zum Kursordner)
         while url.startswith("../"):
             url = url[3:]
+
+        # Falls die Referenz nicht bereits kursweit ist, und wir wissen,
+        # aus welcher Lektion gerendert wird: präfix mit Lektionsordner
+        if lesson_id and not url.startswith(("assets/", "docs/", "static/")):
+            url = f"{lesson_id}/{url}"
+
         return f'{m.group("attr")}="{base}{url}"'
 
     return pattern.sub(repl, html)

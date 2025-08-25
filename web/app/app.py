@@ -133,6 +133,11 @@ def index():
     courses = [c for c in load_courses() if c.get("visible", False)]
     return render_template("index.html", courses=courses)
 
+# ------ Flyer ------
+@app.get("/flyer")
+def flyer():
+    pdf_url = url_for('static', filename='docs/promo/Flyer-IT-Kurs-Dietikon.pdf')
+    return render_template("flyer.html", pdf_url=pdf_url)
 
 # Kurs-Übersicht (Info-Liste)
 @app.get("/kursliste", endpoint="kursliste")
@@ -471,7 +476,7 @@ def unterlagen_lektion(slug, lesson_id):
         return (f"<p>Lektion nicht gefunden.</p><p><a href='/unterlagen/{slug}'>Zurück</a></p>"), 404
 
     # relative Links/Bilder auf Media-Route umschreiben
-    html = rewrite_relative_urls(html, slug)
+    html = rewrite_relative_urls(html, slug, lesson_id )
     return render_template("unterlagen_lektion.html", kurs=kurs, meta=meta, html=html)
 
 

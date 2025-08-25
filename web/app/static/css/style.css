@@ -382,6 +382,19 @@ section.kursleitung img {
   .lesson-body pre { white-space: pre-wrap; }
 }
 
+/* ==== Bild-Reihen für Markdown-Unterlagen ==== */
+.image-row {
+  display: flex;        /* nebeneinander anordnen */
+  flex-wrap: wrap;      /* bei schmalen Displays umbrechen */
+  gap: 12px;            /* Abstand zwischen den Bildern */
+  margin: 1rem 0;       /* etwas Luft oben/unten */
+}
+
+.image-row img {
+  max-width: 100%;      /* Bilder passen sich an Containerbreite an */
+  height: auto;         /* Seitenverhältnis bleibt erhalten */
+  border-radius: 6px;   /* leichte Abrundung, wirkt harmonischer */
+}
 
 /* === Mobile-Feinschliff fürs Anmeldeformular === */
 @media (max-width: 768px) {

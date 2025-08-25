@@ -10,4 +10,4 @@ email_validator
 gunicorn
 Markdown
 PyYAML
-requests
+requests>=2.32.0
