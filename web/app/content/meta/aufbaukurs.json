@@ -1,0 +1,42 @@
+{
+  "slug": "aufbaukurs",
+  "titel": "Aufbaukurs IT für Senior*innen",
+  "untertitel": "Vertiefung der Themen aus dem Grundkurs",
+  "startdatum": "tbd",
+  "ort": "sfb Reppischhof, Bernstrasse 394, 8953 Dietikon",
+  "themen": [
+    {
+      "titel": "Betriebssystem & Dateien",
+      "punkte": [
+        "Ordnerstruktur verstehen und sinnvoll nutzen",
+        "Dateien kopieren, verschieben, löschen",
+        "Dateiendungen und Dateiformate im Überblick",
+        "Praktische Tipps für den Alltag"
+      ]
+    },
+    {
+      "titel": "Cloud & Zusammenarbeit",
+      "punkte": [
+        "Cloud-Dienste: Google Drive, OneDrive, iCloud im Vergleich",
+        "Dokumente speichern, teilen und gemeinsam bearbeiten",
+        "Datenschutz: worauf muss ich achten?"
+      ]
+    },
+    {
+      "titel": "IT-Sicherheit vertieft",
+      "punkte": [
+        "Sicherer Umgang mit Passwörtern und 2FA",
+        "Phishing-Mails erkennen",
+        "Virenschutz & Updates"
+      ]
+    },
+    {
+      "titel": "Office & Kommunikation",
+      "punkte": [
+        "Texte und Tabellen: Grundlagen auffrischen",
+        "E-Mail-Organisation mit Ordnern und Regeln",
+        "Videokonferenzen effektiv nutzen (Zoom, Teams)"
+      ]
+    }
+  ]
+}
