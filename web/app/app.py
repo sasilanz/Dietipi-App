@@ -112,14 +112,14 @@ def index():
 
 
 # Kurs-Übersicht (Info-Liste)
-@app.get("/kursliste")
+@app.get("/kursliste", endpoint="kursliste")
 def kursliste():
     courses = [c for c in load_courses() if c.get("visible", False)]
     return render_template("kursliste.html", courses=courses)
 
 
 # Kurs-Onepager (Beschreibung) – Daten aus meta/<slug>.json, Merge mit courses.json
-@app.get("/kurs/<slug>")
+@app.get("/kurs/<slug>", endpoint="kursbeschreibung")
 def kurs(slug):
     # Basisdaten (Status, Preis etc.) aus courses.json
     basis = next((c for c in load_courses() if c.get("visible", False) and c["id"] == slug), None)
@@ -399,14 +399,14 @@ def admin_home():
 
 
 # --- Unterlagen (Einstieg) ---
-@app.get("/unterlagen")
+@app.get("/unterlagen", endpoint="unterlagen")
 def unterlagen():
     courses = load_courses()
     visible = [c for c in courses if c.get("visible", False)]
     return render_template("unterlagen.html", courses=visible)
 
 # Kurs-Unterlagen: Lektionsliste
-@app.get("/unterlagen/<slug>")
+@app.get("/unterlagen/<slug>", endpoint="unterlagen_kurs")
 def unterlagen_kurs(slug):
     # nur Kurse zeigen, die es wirklich gibt (und sichtbar sind)
     kurs = next((c for c in load_courses() if c.get("visible", False) and c["id"] == slug), None)
@@ -418,7 +418,7 @@ def unterlagen_kurs(slug):
 
 
 # Lektionsdetail: Markdown rendern
-@app.get("/unterlagen/<slug>/<lesson_id>")
+@app.get("/unterlagen/<slug>/<lesson_id>", endpoint="unterlagen_lektion")
 def unterlagen_lektion(slug, lesson_id):
     kurs = next((c for c in load_courses() if c.get("visible", False) and c["id"] == slug), None)
     if not kurs:

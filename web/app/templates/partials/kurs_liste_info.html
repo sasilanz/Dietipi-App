@@ -2,7 +2,7 @@
   <ul class="kursliste">
     {% for c in courses %}
       <li class="kursitem">
-        <a class="kurslink" href="{{ url_for('kurs_detail', slug=c.id) }}">{{ c.label }}</a>
+        <a class="kurslink" href="{{ url_for('kursbeschreibung', slug=c.id) }}">{{ c.label }}</a>
         {% if c.description %}
           <p class="kursdesc">{{ c.description }}</p>
         {% endif %}
