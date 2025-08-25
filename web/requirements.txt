@@ -8,3 +8,6 @@ resend==2.13.0
 Flask-WTF
 email_validator
 gunicorn
+Markdown
+PyYAML
+requests>=2.32.0

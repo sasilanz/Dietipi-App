@@ -5,6 +5,9 @@
 {% block content %}
   <h1>Willkommen!</h1>
   <p>Hier findest du aktuelle Informationen, Termine und später auch Materialien zum Kurs</p>
+  <p>Die Kurse richten sich an Senior*innen, die ihre digitalen Kompetenzen erweitern möchten. Vorkenntnisse sind nicht erforderlich.</p>
+  <p>Im Moment ist der Grundkurs als Einstieg gedacht, aber wenn sich mehr Personen anmelden oder Interesse an einem Aufbaukurs besteht, so werde ich das berücksichtigen und die Teilnehmergruppe aufteilen.</p>
+  <p>Es soll sich niemand über-oder unterfordert fühlen.</p>
 
   <section>
     <h2>NEU AB OKTOBER - Grundkurs</h2>
@@ -14,16 +17,23 @@
       <li>Bildungszentrum sfb Reppischhof, Bernstrasse 394, 8953 Dietikon</li>
       <li>Wegbeschreibung: <a href="https://maps.app.goo.gl/KbdXynL8RA9WCmCG8">sfb</a></li>
     </ul>
+    <p>
+      <a href="{{ url_for('flyer') }}" class="home-button">📄 Flyer ansehen / drucken</a>
+  
+</a>
+    </p>
   </section>
 
   <section>
   <h2>Grundkurs 2025</h2>
   <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="/kurs/grundkurs-2025" class="anmelde-button">Kursprogramm & Themen</a>
+    <a href="{{ url_for('kursbeschreibung', slug='grundkurs-2025-10-02-di') }}" 
+   class="anmelde-button">Kursprogramm und Themen</a>
     <a href="/anmeldung" class="anmelde-button">Zur Kursanmeldung</a>
   </div>
   </section>
 
+  
   
   <section>
     <h2>Unterstützung </h2>

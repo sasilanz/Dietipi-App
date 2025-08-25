@@ -12,10 +12,10 @@
     <div class="nav-group">
       <a class="home-button" href="/">Startseite</a>
       <nav class="nav">
-        <a href="/kurs/grundkurs-2025">Grundkurs</a>
+        <a href="{{ url_for('kursliste') }}">Kurse</a>
         <a href="{{ url_for('kursleitung') }}">Kursleitung</a>
         <a href="{{ url_for('payment_info') }}">Zahlung</a>
-        
+        <a href="{{ url_for('unterlagen') }}">Unterlagen</a>
         <!-- … deine weiteren Links … -->
   {% if token %}
     <a href="/_admin?admin={{ token }}" class="home-button">Admin-Home</a>

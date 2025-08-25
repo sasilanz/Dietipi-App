@@ -12,3 +12,9 @@ Alle relevanten Änderungen an diesem Projekt werden hier dokumentiert.
 
 ### Notes
 - `v1.1` ist der erste stabile Stand, empfohlen als Rücksprungpunkt
+
+### feature-branch: content-structure abgeschlossen 25.8.2025
+- Unterlagen (MVP) – Kurs‑Liste, Lektionsliste, Markdown‑Render, Media‑Links
+
+prod rebuild nötig
+

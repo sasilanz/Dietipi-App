@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Flyer{% endblock %}
+
+{% block content %}
+<p><a href="{{ url_for('index') }}">← Zurück zur Startseite</a></p>
+<h1>Flyer für Grundkurs</h1>
+<p>
+  <button onclick="printPdf()" class="home-button">🖨️ Drucken</button>
+  <a href="{{ pdf_url }}" target="_blank" rel="noopener" class="home-button">In neuem Tab öffnen</a>
+  <a href="{{ pdf_url }}" download class="home-button">⬇️ Download</a>
+</p>
+
+<!-- Einbettung -->
+<iframe id="flyerFrame"
+        src="{{ pdf_url }}"
+        style="width:100%; height:80vh; border:1px solid #e6e6e6; border-radius:8px;">
+</iframe>
+
+<script>
+function printPdf() {
+  const frame = document.getElementById('flyerFrame');
+  // Viele Browser erlauben direktes Drucken des iFrame-Inhalts:
+  if (frame && frame.contentWindow) {
+    frame.contentWindow.focus();
+    frame.contentWindow.print();
+  } else {
+    // Fallback: neues Tab öffnen – Nutzer:in druckt dort
+    window.open('{{ pdf_url }}', '_blank');
+  }
+}
+</script>
+{% endblock %}
