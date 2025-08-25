@@ -118,14 +118,17 @@ def kursliste():
     return render_template("kursliste.html", courses=courses)
 
 
-# Kurs-Onepager (Beschreibung) – Daten aus meta/<slug>.json, Merge mit courses.json
+# Kurs-Onepager (Beschreibung) – Daten aus meta/<slug>.json, 
 @app.get("/kurs/<slug>", endpoint="kursbeschreibung")
-def kurs(slug):
+def kursbeschreibunt_view(slug):
     # Basisdaten (Status, Preis etc.) aus courses.json
     basis = next((c for c in load_courses() if c.get("visible", False) and c["id"] == slug), None)
     if not basis:
         return ("<p>Kurs nicht gefunden.</p><p><a href='/kursliste'>Zur Übersicht</a></p>"), 404
 
+    # 1) explizites Mapping benutzen, falls vorhanden
+    meta_slug = basis.get("beschreibung_slug") or slug
+    
     # Detaildaten (Titel, Untertitel, Themen ...) aus meta/<slug>.json
     try:
         detail = load_json(f"{slug}.json")
