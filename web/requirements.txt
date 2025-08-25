@@ -10,3 +10,4 @@ email_validator
 gunicorn
 Markdown
 PyYAML
+requests
