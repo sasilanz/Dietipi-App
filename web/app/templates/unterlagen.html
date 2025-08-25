@@ -1,8 +1,20 @@
 {% extends "base.html" %}
-{% block title %}Unterlagen{% endblock %}
 {% block content %}
-<section>
+  <a class="breadcrumb" href="{{ url_for('index') }}">← Start</a>
   <h1>Unterlagen</h1>
-  <p>Hier entsteht die Übersicht für alle Kursunterlagen.</p>
-</section>
+
+  {% if courses %}
+    <ul class="kursliste">
+      {% for c in courses %}
+        <li class="kursitem">
+          <a class="kurslink" href="{{ url_for('unterlagen_kurs', slug=c.id) }}">{{ c.label }}</a>
+          {% if c.description %}
+            <p class="kursdesc">{{ c.description }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Noch keine Kurse mit Unterlagen sichtbar.</p>
+  {% endif %}
 {% endblock %}

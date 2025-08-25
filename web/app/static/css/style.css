@@ -187,6 +187,7 @@ section.kursleitung img {
   margin-top: 1rem;              /* etwas Abstand zum Text davor */
 }
 
+
 /* Button-Styling für den Firmen-Link */
 .l-con-link .link-mit-icon {
   display: inline-flex;
@@ -212,6 +213,173 @@ section.kursleitung img {
   height: auto;
   display: inline-block;
   vertical-align: middle;
+}
+
+/* Gemeinsames Styling für Kurslisten (Kurse + Unterlagen) */
+.kursliste { list-style: none; padding: 0; margin: 0; }
+.kursitem { margin: 0 0 1rem 0; }
+.kurslink { font-weight: 600; text-decoration: none; }
+.kursdesc { margin: .2rem 0 0 0; font-size: .95em; color: #555; }
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+  border: 1px solid transparent;
+  background-color: #f9f9f9; /* sehr helles Grau als Basis */
+}
+
+.status-open {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.status-planning {
+  color: #d4aa00;
+  border-color: #d4aa00;
+}
+
+.status-closed {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+/* Style für Unterlagen und Lektionen */
+.lektionen { list-style: none; padding: 0; }
+.lektionen li { margin: .4rem 0; }
+.lesson-body h2, .lesson-body h3 { margin-top: 1.2rem; }
+.lesson-body blockquote { border-left: 3px solid #ddd; padding-left: .8rem; color:#555; }
+
+
+/* === Ergänzungen für Unterlagen & Markdown-Ansichten ===================== */
+
+/* Breadcrumb/Zurück-Link oberhalb der Inhalte */
+.breadcrumb, .backlink {
+  display: inline-block;
+  margin: .2rem 0 1rem 0;
+  font-size: .95rem;
+  color: #0077cc;
+  text-decoration: none;
+}
+.breadcrumb:hover, .backlink:hover { text-decoration: underline; }
+
+/* Kurslisten-Link besser erkennbar (Info + Unterlagen) */
+.kurslink {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.kurslink:hover, .kurslink:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+/* Lektionsliste (Unterlagen-Kursseite) – dezente Trennung */
+.lektionen { list-style: none; padding: 0; margin: .5rem 0; }
+.lektionen li { margin: .45rem 0; }
+.lektionen a { text-decoration: none; color: #0077cc; }
+.lektionen a:hover { text-decoration: underline; }
+
+/* Markdown-Body (Unterlagen-Lektion) */
+.lesson-body {
+  background: #fff;
+  padding: 16px 18px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,.06);
+}
+
+/* Typografie im Markdown */
+.lesson-body p { margin: 0 0 .9rem 0; }
+.lesson-body h1 { margin-top: 0; }
+.lesson-body h2, .lesson-body h3, .lesson-body h4 {
+  margin: 1.1rem 0 .5rem 0;
+  color: #333;
+}
+.lesson-body ul, .lesson-body ol { padding-left: 1.2rem; margin: .6rem 0 .9rem; }
+.lesson-body li { margin: .25rem 0; }
+
+/* Links im Markdown */
+.lesson-body a {
+  color: #0077cc;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lesson-body a:hover { text-decoration: none; }
+
+/* Bilder/Medien im Markdown responsiv */
+.lesson-body img, .lesson-body video, .lesson-body iframe {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Zitate/Trenner/Code im Markdown */
+.lesson-body blockquote {
+  border-left: 3px solid #e3e3e3;
+  padding-left: .8rem;
+  color: #555;
+  background: #fafafa;
+}
+.lesson-body hr {
+  border: 0;
+  border-top: 1px solid #e6e6e6;
+  margin: 1rem 0;
+}
+.lesson-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .95em;
+  background: #f4f7fb;
+  border: 1px solid #e6eef7;
+  padding: .15rem .35rem;
+  border-radius: 4px;
+}
+.lesson-body pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: .8rem 1rem;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+/* Tabellen im Markdown */
+.lesson-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: .8rem 0 1rem;
+}
+.lesson-body th, .lesson-body td {
+  border: 1px solid #e6e6e6;
+  padding: .5rem .6rem;
+  text-align: left;
+}
+.lesson-body thead th {
+  background: #f5f7fb;
+  font-weight: 600;
+}
+
+/* Download-Links (z. B. Handouts) optional als Button */
+.download-link, .download-button {
+  display: inline-block;
+  padding: .5rem .8rem;
+  border: 1px solid #0077cc;
+  border-radius: 6px;
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 600;
+}
+.download-link:hover, .download-button:hover {
+  background: #0077cc;
+  color: #fff;
+}
+
+/* Print-Ansicht: saubere Handouts direkt aus dem Browser */
+@media print {
+  body { background: #fff; width: 100%; max-width: none; padding: 0; }
+  header, .nav, .breadcrumb, .backlink, .status-badge { display: none !important; }
+  section, .lesson-body { box-shadow: none !important; border-radius: 0; padding: 0; }
+  a { color: #000; text-decoration: underline; }
+  .lesson-body pre { white-space: pre-wrap; }
 }
 
 

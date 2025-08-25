@@ -1,0 +1,24 @@
+{% if courses %}
+  <ul class="kursliste">
+    {% for c in courses %}
+      <li class="kursitem">
+        <a class="kurslink" href="{{ url_for('kurs_detail', slug=c.id) }}">{{ c.label }}</a>
+        {% if c.description %}
+          <p class="kursdesc">{{ c.description }}</p>
+        {% endif %}
+        {% if c.status %}
+          <span class="status-badge
+            {% if c.status == 'anmeldung_offen' %}status-open
+            {% elif c.status == 'planung' %}status-planning
+            {% elif c.status == 'geschlossen' %}status-closed{% endif %}">
+            {% if c.status == 'anmeldung_offen' %}🟢 Anmeldung offen
+            {% elif c.status == 'planung' %}🟡 In Planung
+            {% elif c.status == 'geschlossen' %}🔴 Anmeldung geschlossen{% endif %}
+          </span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Noch keine Kurse sichtbar.</p>
+{% endif %}
