@@ -133,11 +133,16 @@ def index():
     courses = [c for c in load_courses() if c.get("visible", False)]
     return render_template("index.html", courses=courses)
 
-# ------ Flyer ------
+# ------ Flyer mit eigener Seite flyer.html------
+# @app.get("/flyer")
+# def flyer():
+#     pdf_url = url_for('static', filename='docs/promo/Flyer-IT-Kurs-Dietikon.pdf')
+#     return render_template("flyer.html", pdf_url=pdf_url)
+# flyer ohne eigene Seite, sondern direkt das pdf anzeigen
 @app.get("/flyer")
 def flyer():
-    pdf_url = url_for('static', filename='docs/promo/Flyer-IT-Kurs-Dietikon.pdf')
-    return render_template("flyer.html", pdf_url=pdf_url)
+    return send_file("static/docs/promo/Flyer-IT-Kurs-Dietikon.pdf", mimetype="application/pdf")
+
 
 # Kurs-Übersicht (Info-Liste)
 @app.get("/kursliste", endpoint="kursliste")
