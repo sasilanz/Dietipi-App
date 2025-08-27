@@ -16,7 +16,7 @@
       return render_template("index.html")
   ```
 
-## 2. Wo du was pflegst
+## 2. Wichtige Konfigfiles
 - **Navigation, Grundlayout, Footer, globale Stile:**  
   `templates/base.html` und `static/css/style.css`
 - **Startseiten‑Inhalt:**  
@@ -24,10 +24,10 @@
 - **Admin‑Seiten (Teilnehmende):**  
   `templates/list_participants.html`, `add_participant.html`, `edit_participant.html`
 - **Routen/Logik/DB:**  
-  `app.py`, `models.py`
+  `app.py`, `models.py`, forms.py, markdown_loader.py, content_loader.py
 
 ## 3. Admin‑Schutz (Token)
-- In `web/.env`:
+- In `web/.env` in .gitignore, dh nicht auf github:
   ```
   ADMIN_TOKEN=dein_geheimes_token
   ```
@@ -45,7 +45,7 @@
           return f(*a, **k)
       return dec
   ```
-- Auf **alle Admin‑Routen** anwenden (Beispiele):
+- Auf **alle Admin‑Routen** angewendet (siehe in app.py wo mit @require_admin dekoriert sind):
   ```python
   @app.get("/teilnehmende") @require_admin
   @app.get("/teilnehmende/new") @require_admin
@@ -53,8 +53,9 @@
   @app.get("/teilnehmende/<int:pid>/edit") @require_admin
   @app.post("/teilnehmende/<int:pid>/edit") @require_admin
   @app.post("/teilnehmende/<int:pid>/delete") @require_admin
+  @app.post("/teilnehmende/<int:pid>/paid")
   ```
-- **Count** kann öffentlich bleiben:
+- **Count** kann öffentlich bleiben, ist nicht auf der webseite implementiert:
   ```python
   @app.get("/teilnehmende/count")
   ```
@@ -64,9 +65,9 @@
   def admin_home():
       return render_template("admin_home.html", token=ADMIN_TOKEN)
   ```
-  Aufrufen: `http://localhost:5001/_admin?admin=DEIN_TOKEN`
+  Aufrufen mit: `http://localhost:5001/_admin?admin=DEIN_TOKEN`
 
-## 4. Wichtigste URLs
+## 4. URLs
 - **Öffentlich:** `/` (Startseite), `/teilnehmende/count`
 - **Admin:** `/_admin?admin=TOKEN`, `/teilnehmende?admin=TOKEN`, `/teilnehmende/new?admin=TOKEN`, `/teilnehmende/<id>/edit?admin=TOKEN`
 
@@ -74,55 +75,109 @@
 ```
 tree -a -I .git
 .
-├── .DS_Store
+├── changelog.md
+├── compose.dev.yml
+├── compose.prod.yml
+├── compose.yml
+├── deployment.Readme.md
 ├── Doks
 │   ├── chat_index.md
 │   ├── content.md
 │   ├── entscheidungsprotokoll.md
 │   ├── kursinhalte.md
 │   ├── kursportal_struktur.pdf
+│   ├── unterlagen_architektur.md
+│   ├── unterlagen_konzept.md
 │   └── webapp.md
+├── .DS_Store
+├── .env
+├── .env.example
+├── .gitignore
+├── git_spickzettel.md
 ├── Readme.md
-├── compose.yaml
 └── web
-    ├── .DS_Store
-    ├── .env
-    ├── Dockerfile
     ├── app
-    │   ├── .DS_Store
-    │   ├── __init__.py
     │   ├── app.py
     │   ├── content
-    │   │   ├── alle_kurse.json
-    │   │   ├── home.json
-    │   │   └── kurs_grundkurs-2025.json
+    │   │   ├── .DS_Store
+    │   │   ├── meta
+    │   │   │   ├── aufbaukurs.json
+    │   │   │   ├── courses.json
+    │   │   │   ├── grundkurs-2025.json
+    │   │   │   └── home.json
+    │   │   └── unterlagen
+    │   │       ├── .DS_Store
+    │   │       ├── durchfuehrungen
+    │   │       │   ├── .DS_Store
+    │   │       │   └── grundkurs-2025-10-02-di
+    │   │       │       ├── assets
+    │   │       │       │   └── bank_qr.png
+    │   │       │       ├── .DS_Store
+    │   │       │       ├── L01
+    │   │       │       │   ├── index.md
+    │   │       │       │   └── testbild.png
+    │   │       │       ├── L02
+    │   │       │       │   └── index.md
+    │   │       │       └── L03
+    │   │       │           ├── asi_handpan.jpg
+    │   │       │           ├── echoes_cover.jpeg
+    │   │       │           └── index.md
+    │   │       └── .gitkeep
+    │   ├── .DS_Store
+    │   ├── forms.py
+    │   ├── __init__.py
     │   ├── models.py
     │   ├── static
-    │   │   ├── .DS_Store
     │   │   ├── css
-    │   │   │   ├── img
     │   │   │   └── style.css
+    │   │   ├── docs
+    │   │   │   ├── .DS_Store
+    │   │   │   ├── grundkurs-2025
+    │   │   │   │   ├── .DS_Store
+    │   │   │   │   └── G-L01-handout.pdf
+    │   │   │   └── promo
+    │   │   │       ├── .DS_Store
+    │   │   │       └── Flyer-IT-Kurs-Dietikon.pdf
+    │   │   ├── .DS_Store
     │   │   └── img
-    │   │       └── bank_qr.png
-    │   └── templates
-    │       ├── add_participant.html
-    │       ├── admin_home.html
-    │       ├── base.html
-    │       ├── edit_participant.html
-    │       ├── index.html
-    │       ├── kurs_info.html
-    │       ├── kursleitung.html
-    │       ├── list_participants.html
-    │       ├── payment.html
-    │       ├── register.html
-    │       └── register_success.html
+    │   │       ├── astrid.png
+    │   │       ├── bank_qr.png
+    │   │       ├── .DS_Store
+    │   │       └── l-con_logo.png
+    │   ├── templates
+    │   │   ├── add_participant.html
+    │   │   ├── admin_home.html
+    │   │   ├── base.html
+    │   │   ├── edit_participant.html
+    │   │   ├── flyer.html
+    │   │   ├── index.html
+    │   │   ├── kursbeschreibung.html
+    │   │   ├── kursleitung.html
+    │   │   ├── kursliste.html
+    │   │   ├── list_participants.html
+    │   │   ├── partials
+    │   │   │   ├── kurs_liste.html
+    │   │   │   └── kurs_liste_info.html
+    │   │   ├── payment.html
+    │   │   ├── register.html
+    │   │   ├── register_success.html
+    │   │   ├── unterlagen.html
+    │   │   ├── unterlagen_kurs.html
+    │   │   └── unterlagen_lektion.html
+    │   └── utils
+    │       ├── content_loader.py
+    │       ├── __init__.py
+    │       └── markdown_loader.py
+    ├── Dockerfile
+    ├── .DS_Store
     └── requirements.txt
-
-10 directories, 34 files
 ```
 
 ## 6. Nützliche Compose‑Befehle
+
+DEV (lokal, läuft auf 127.0.0.1:5001)
 ```bash
+
 docker compose up -d                 # alles starten
 docker compose build webapp          # Web-Image neu bauen
 docker compose up -d webapp          # Web neu starten

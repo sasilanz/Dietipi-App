@@ -5,7 +5,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #eef3f9;
 }
 
 header {
@@ -28,16 +28,16 @@ section {
 .anmelde-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #0077cc;
+    background-color:  #4a90e2;
     color: white;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
 }
 
 .anmelde-button:hover {
-    background-color: #005fa3;
+    background-color: #357abd;
 }
     
 /* ===== Anmeldung Formular ===== */
@@ -216,19 +216,42 @@ section.kursleitung img {
 }
 
 /* Gemeinsames Styling für Kurslisten (Kurse + Unterlagen) */
+/* Kursliste: Links als schlanke Buttons (wie Anmelde-Button) */
 .kursliste { list-style: none; padding: 0; margin: 0; }
-.kursitem { margin: 0 0 1rem 0; }
-.kurslink { font-weight: 600; text-decoration: none; }
-.kursdesc { margin: .2rem 0 0 0; font-size: .95em; color: #555; }
+.kursitem { margin: 0 0 1rem; }
 
+.kurslink {
+  display: inline-flex;
+  align-items: center;
+  padding: .4rem .85rem;
+  background-color: #4a90e2;
+  color: #fff;
+  border: 1px solid #357abd;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  transition: background-color .2s, box-shadow .2s, transform .06s;
+}
+
+.kurslink:hover {
+  background-color: #357abd;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+
+.kurslink:active { transform: translateY(1px); }
+.kurslink:focus-visible { outline: 3px solid #bcd7ff; outline-offset: 2px; }
+
+.kursdesc { margin: .35rem 0 0; font-size: .95em; color: #555; }
 .status-badge {
   display: inline-block;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.8em;
   font-weight: 500;
-  border: 1px solid transparent;
-  background-color: #f9f9f9; /* sehr helles Grau als Basis */
+  /* border: 1px solid transparent; */
+  /*background-color: #f9f9f9; /* sehr helles Grau als Basis */
 }
 
 .status-open {
