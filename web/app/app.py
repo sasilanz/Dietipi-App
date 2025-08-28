@@ -2,6 +2,7 @@
 import os
 import json
 import re
+import logging
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
@@ -25,6 +26,13 @@ try:
     TZ = ZoneInfo("Europe/Zurich")
 except Exception:
     TZ = None
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 
 # --- Helper: Kurse laden (einheitliche Quelle) ---
@@ -138,11 +146,11 @@ def send_email_api(to_email: str, subject: str, html: str, text: str = ""):
        EMAIL_PROVIDER=resend, RESEND_API_KEY=..., EMAIL_FROM=info@dieti-it.ch
     """
     if os.getenv("EMAIL_PROVIDER") != "resend":
-        print("[WARN] EMAIL_PROVIDER != 'resend' – Versand übersprungen")
+        logger.warning("EMAIL_PROVIDER != 'resend' – Versand übersprungen")
         return
     api_key = os.getenv("RESEND_API_KEY")
     if not api_key:
-        print("[WARN] RESEND_API_KEY fehlt – Versand übersprungen")
+        logger.warning("RESEND_API_KEY fehlt – Versand übersprungen")
         return
 
     from_addr = os.getenv("EMAIL_FROM", "info@dieti-it.ch")
@@ -313,7 +321,7 @@ def anmeldung():
             send_email_api(email, subject, html)
             send_email_api("astrid@dieti-it.ch", f"[Kopie] {subject}", admin_html)
         except Exception as e:
-            print(f"[WARN] Bestätigungs-Mail fehlgeschlagen: {e}")
+            logger.warning(f"Bestätigungs-Mail fehlgeschlagen: {e}")
 
         return render_template("register_success.html", first=first)
 
