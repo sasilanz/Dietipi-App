@@ -333,7 +333,7 @@ def update_participant(pid: int):
         return {"error": "DB nicht konfiguriert"}, 500
 
     first = request.form.get("first_name", "").strip()
-    last  = request.form.get("last_name", "").strip()
+    last = request.form.get("last_name", "").strip()
     email = request.form.get("email", "").strip().lower()
     phone = request.form.get("phone", "").strip() or None
 
@@ -353,9 +353,9 @@ def update_participant(pid: int):
                     f"<p><a href='/teilnehmende/{pid}/edit'>Zurück</a></p>"), 409
 
         p.first_name = first
-        p.last_name  = last
-        p.email      = email
-        p.phone      = phone
+        p.last_name = last
+        p.email = email
+        p.phone = phone
         s.commit()
 
     return redirect(url_for("list_participants"))
@@ -399,7 +399,7 @@ def create_participant():
         return {"error": "DB nicht konfiguriert"}, 500
 
     first = request.form.get("first_name", "").strip()
-    last  = request.form.get("last_name", "").strip()
+    last = request.form.get("last_name", "").strip()
     email = request.form.get("email", "").strip().lower()
     phone = request.form.get("phone", "").strip() or None
 
