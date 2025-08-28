@@ -1,3 +1,5 @@
+/* ==== Basislayout ========================================================= */
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -5,17 +7,11 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #eef3f9;
+    background-color: #eef3f9; /* sanftes bläulich-hellgrau */
 }
 
-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-h1 {
-    color: #333;
-}
+header { text-align: center; margin-bottom: 2rem; }
+h1 { color: #333; }
 
 section {
     background: white;
@@ -25,22 +21,89 @@ section {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+
+/* ==== Buttons (Web: alle blau) =========================================== */
+
+/* Gemeinsamer kleiner Button (Kurs- & Lektionenlinks) */
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  padding: .4rem .85rem;
+  background-color: #4a90e2;
+  color: #fff;
+  border: 1px solid #357abd;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  transition: background-color .2s, box-shadow .2s, transform .06s;
+}
+.btn-link:hover {
+  background-color: #357abd;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+.btn-link:active { transform: translateY(1px); }
+
+
+/* Anmelde-/Aktionsbuttons auf Seiten */
 .anmelde-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color:  #4a90e2;
-    color: white;
+    background-color: #0077cc;
+    color: #fff;
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background-color .3s;
 }
+.anmelde-button:hover { background-color: #357abd; }
 
-.anmelde-button:hover {
-    background-color: #357abd;
+/* Kursliste: Links als schlanke Buttons (blau, wie oben) */
+.kursliste { list-style: none; padding: 0; margin: 0; }
+.kursitem { margin: 0 0 1rem; }
+
+
+
+.kurslink {
+  display: inline-flex;
+  align-items: center;
+  padding: .4rem .85rem;
+  background-color: #4a90e2;
+  color: #fff;
+  border: 1px solid #357abd;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+  transition: background-color .2s, box-shadow .2s, transform .06s;
 }
-    
-/* ===== Anmeldung Formular ===== */
+.kurslink:hover {
+  background-color: #357abd;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+.kurslink:active { transform: translateY(1px); }
+
+.kursdesc { margin: .35rem 0 0; font-size: .95em; color: #555; }
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+  /* border: 1px solid transparent; */
+  /* background-color: #f9f9f9; */
+}
+.status-open { color: #28a745; border-color: #28a745; }
+.status-planning { color: #d4aa00; border-color: #d4aa00; }
+.status-closed { color: #dc3545; border-color: #dc3545; }
+
+
+/* ==== Anmeldung Formular ================================================== */
+
 form {
   max-width: 480px;                 /* kompakter */
   margin: 0;                        /* linksbündig */
@@ -90,28 +153,21 @@ form select:focus {
   box-shadow: 0 0 0 3px rgba(0,119,204,0.15);
 }
 
-form .row { 
-  display: block; 
-}
-form .row > div {
-  width: 100%;
-}
+form .row { display: block; }
+form .row > div { width: 100%; }
+form .actions { margin-top: 0.5rem; }
 
-form .actions {
-  margin-top: 0.5rem;
-}
-
+/* Größe/Rundung für Formularbuttons + Anmelde-Links vereinheitlichen */
 form button, .anmelde-button {
   padding: 0.9rem 1.6rem;
   font-size: 1.2rem;
   border-radius: 8px;
 }
 
-
 /* Hinweistext für fehlende E-Mail */
 .form-hint {
-  background: #e8f4fd;       /* zartes Gelb */
-  border: 1px solid #b6e0fe; /* Kontrast */
+  background: #e8f4fd;
+  border: 1px solid #b6e0fe;
   padding: .8rem 1rem;
   border-radius: .5rem;
   margin: 0 0 1rem 0;
@@ -119,13 +175,15 @@ form button, .anmelde-button {
 .form-hint strong { font-weight: 700; }
 
 
+/* ==== Navigation / Home-Button =========================================== */
+
 .nav-group {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* Auffälliger Home-Button */
+/* Auffälliger Home-Button (separat) */
 .home-button {
   display: inline-block;
   padding: 0.6rem 1.2rem;
@@ -137,14 +195,12 @@ form button, .anmelde-button {
   text-decoration: none;
   transition: background-color 0.2s ease, transform 0.1s ease;
 }
-
 .home-button:hover {
   background-color: #005fa3;
   transform: translateY(-2px);
 }
 
-/* Navigation */
-/* Kleine Buttons für die Navi-Links (nicht Startbutton) */
+/* Navigation – kleine Links in der Leiste */
 .nav a {
   font-size: 0.95rem;
   font-weight: 600;
@@ -156,13 +212,13 @@ form button, .anmelde-button {
   background-color: #fff;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 .nav a:hover {
   background-color: #0077cc;
   color: #fff;
 }
 
-/* Kursleitung – simples, einspaltiges Layout */
+
+/* ==== Kursleitung ========================================================= */
 
 .kursleitung p { max-width: none; } /* Text darf mitwachsen */
 
@@ -175,20 +231,14 @@ section.kursleitung img {
   float: right;
   max-width: 200px;
   height: auto;
-  border-radius: 10px;  /* abgerundeten Ecken  */
+  border-radius: 10px;
   margin: 0 0 12px 16px;  
 }
 
+/* l-con-link in Kursleitung */
+.l-con-link { margin-top: 1rem; }
 
-
-
-/* Styling für l-con-link in Kursleitung */
-.l-con-link {
-  margin-top: 1rem;              /* etwas Abstand zum Text davor */
-}
-
-
-/* Button-Styling für den Firmen-Link */
+/* Button-Stil für Firmen-Link (separat, belassen) */
 .l-con-link .link-mit-icon {
   display: inline-flex;
   align-items: center;
@@ -202,81 +252,24 @@ section.kursleitung img {
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 .l-con-link .link-mit-icon:hover {
   background-color: #0077cc;
   color: #fff;
 }
-
 .l-con-link .icon {
-  width: 16px;   /* etwas kleiner als die Navi-Icons */
+  width: 16px;
   height: auto;
   display: inline-block;
   vertical-align: middle;
 }
 
-/* Gemeinsames Styling für Kurslisten (Kurse + Unterlagen) */
-/* Kursliste: Links als schlanke Buttons (wie Anmelde-Button) */
-.kursliste { list-style: none; padding: 0; margin: 0; }
-.kursitem { margin: 0 0 1rem; }
 
-.kurslink {
-  display: inline-flex;
-  align-items: center;
-  padding: .4rem .85rem;
-  background-color: #4a90e2;
-  color: #fff;
-  border: 1px solid #357abd;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 600;
-  line-height: 1.2;
-  box-shadow: 0 1px 2px rgba(0,0,0,.08);
-  transition: background-color .2s, box-shadow .2s, transform .06s;
-}
+/* ==== Unterlagen & Markdown-Ansichten ==================================== */
 
-.kurslink:hover {
-  background-color: #357abd;
-  box-shadow: 0 2px 6px rgba(0,0,0,.12);
-}
-
-.kurslink:active { transform: translateY(1px); }
-.kurslink:focus-visible { outline: 3px solid #bcd7ff; outline-offset: 2px; }
-
-.kursdesc { margin: .35rem 0 0; font-size: .95em; color: #555; }
-.status-badge {
-  display: inline-block;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.8em;
-  font-weight: 500;
-  /* border: 1px solid transparent; */
-  /*background-color: #f9f9f9; /* sehr helles Grau als Basis */
-}
-
-.status-open {
-  color: #28a745;
-  border-color: #28a745;
-}
-
-.status-planning {
-  color: #d4aa00;
-  border-color: #d4aa00;
-}
-
-.status-closed {
-  color: #dc3545;
-  border-color: #dc3545;
-}
-
-/* Style für Unterlagen und Lektionen */
 .lektionen { list-style: none; padding: 0; }
 .lektionen li { margin: .4rem 0; }
 .lesson-body h2, .lesson-body h3 { margin-top: 1.2rem; }
-.lesson-body blockquote { border-left: 3px solid #ddd; padding-left: .8rem; color:#555; }
-
-
-/* === Ergänzungen für Unterlagen & Markdown-Ansichten ===================== */
+.lesson-body blockquote { border-left: 3px solid #ddd; padding-left: .8rem; }
 
 /* Breadcrumb/Zurück-Link oberhalb der Inhalte */
 .breadcrumb, .backlink {
@@ -288,20 +281,10 @@ section.kursleitung img {
 }
 .breadcrumb:hover, .backlink:hover { text-decoration: underline; }
 
-/* Kurslisten-Link besser erkennbar (Info + Unterlagen) */
-.kurslink {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-.kurslink:hover, .kurslink:focus {
-  text-decoration: none;
-  outline: none;
-}
-
 /* Lektionsliste (Unterlagen-Kursseite) – dezente Trennung */
 .lektionen { list-style: none; padding: 0; margin: .5rem 0; }
 .lektionen li { margin: .45rem 0; }
-.lektionen a { text-decoration: none; color: #0077cc; }
+.lektionen a { text-decoration: none;}
 .lektionen a:hover { text-decoration: underline; }
 
 /* Markdown-Body (Unterlagen-Lektion) */
@@ -330,7 +313,7 @@ section.kursleitung img {
 }
 .lesson-body a:hover { text-decoration: none; }
 
-/* Bilder/Medien im Markdown responsiv */
+/* Medien im Markdown responsiv */
 .lesson-body img, .lesson-body video, .lesson-body iframe {
   max-width: 100%;
   height: auto;
@@ -381,7 +364,8 @@ section.kursleitung img {
   font-weight: 600;
 }
 
-/* Download-Links (z. B. Handouts) optional als Button */
+
+/* Download-Links (z. B. Handouts) */
 .download-link, .download-button {
   display: inline-block;
   padding: .5rem .8rem;
@@ -396,7 +380,9 @@ section.kursleitung img {
   color: #fff;
 }
 
-/* Print-Ansicht: saubere Handouts direkt aus dem Browser */
+
+/* ==== Print-Ansicht ======================================================= */
+
 @media print {
   body { background: #fff; width: 100%; max-width: none; padding: 0; }
   header, .nav, .breadcrumb, .backlink, .status-badge { display: none !important; }
@@ -405,26 +391,25 @@ section.kursleitung img {
   .lesson-body pre { white-space: pre-wrap; }
 }
 
-/* ==== Bild-Reihen für Markdown-Unterlagen ==== */
+
+/* ==== Bild-Reihen für Unterlagen ========================================= */
+
 .image-row {
-  display: flex;        /* nebeneinander anordnen */
-  flex-wrap: wrap;      /* bei schmalen Displays umbrechen */
-  gap: 12px;            /* Abstand zwischen den Bildern */
-  margin: 1rem 0;       /* etwas Luft oben/unten */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 1rem 0;
 }
-
 .image-row img {
-  max-width: 100%;      /* Bilder passen sich an Containerbreite an */
-  height: auto;         /* Seitenverhältnis bleibt erhalten */
-  border-radius: 6px;   /* leichte Abrundung, wirkt harmonischer */
-}
-
-/* PDF/Flyer responsive einbetten */
-.pdf-wrap {
-  width: 100%;
   max-width: 100%;
+  height: auto;
+  border-radius: 6px;
 }
 
+
+/* ==== PDF/Flyer eingebettet ============================================== */
+
+.pdf-wrap { width: 100%; max-width: 100%; }
 .pdf-viewer {
   display: block;
   width: 100%;
@@ -432,96 +417,65 @@ section.kursleitung img {
   height: 80vh;         /* Desktop: angenehm hoch */
   border: none;
 }
-
-/* Optional: kleiner Hinweislink unter dem Viewer */
-.pdf-actions {
-  margin-top: .5rem;
-  font-size: .9rem;
-}
+.pdf-actions { margin-top: .5rem; font-size: .9rem; }
 
 
-/* === Mobile-Feinschliff fürs Anmeldeformular === */
+/* ==== Mobile-Feinschliff (Anmeldung & Navi) =============================== */
+
 @media (max-width: 768px) {
 
-  body {
-    max-width: 95%;   /* bei kleineren Displays flexibel */
-  }
+  body { max-width: 95%; }
 
-  /* Der Kasten bleibt kompakt und gut lesbar */
+  /* Formular kompakt & gut lesbar */
   form {
     max-width: 100%;
-    margin: 0;                 /* linksbündig */
-    padding: 1.25rem 1rem;     /* etwas weniger Innenabstand auf sehr schmalen Screens */
+    margin: 0;
+    padding: 1.25rem 1rem;
     border-radius: 12px;
   }
-
-  /* Labels groß & klar */
-  form label {
-    font-size: 1.1rem;
-    margin: 0.35rem 0 0.3rem;
-  }
-
-  /* Eingabefelder: volle Breite, aber mit sauberem Rand */
+  form label { font-size: 1.1rem; margin: 0.35rem 0 0.3rem; }
   form input {
     width: 100%;
-    box-sizing: border-box;    /* verhindert Überstand */
+    box-sizing: border-box;
     padding: 0.9rem 1rem;
     font-size: 1.1rem;
     margin-bottom: 1rem;
   }
 
-  /* Falls irgendwo noch eine zweispaltige Reihe übrig war: einkolumnig */
-  form .row {
-    display: block !important;
-  }
-  form .row > div {
-    width: 100%;
-  }
+  /* Reihen einkolumnig */
+  form .row { display: block !important; }
+  form .row > div { width: 100%; }
 
-  /* Button gut klickbar, nicht zu klein */
-  form .actions {
-    margin-top: 0.75rem;
-    text-align: left;          /* bleibt linksbündig wie der Rest */
-  }
+  /* Buttons im Formular: gut klickbar */
+  form .actions { margin-top: 0.75rem; text-align: left; }
   form button, .anmelde-button {
-    width: auto;               /* kein Vollbreite-Button, wirkt „buttoniger“ */
+    width: auto;
     padding: 0.9rem 1.4rem;
     font-size: 1.15rem;
     border-radius: 8px;
   }
-  /* Variante grüner button für Zahlung */
-  .anmelde-button--pay {
-  background-color: #28a745;      /* grün */
-  }
-  .anmelde-button--pay:hover {
-  background-color: #218838;
-  }
 
-  
-  /* Navigation im Mobile untereinander */
-  
+  /* Navigation im Mobile untereinander, rechtsbündig */
   .nav {
-    flex-direction: column;   /* Links untereinander stapeln */
-    align-items: flex-end;     /* Block rechts asrichten */
+    flex-direction: column;
+    align-items: flex-end;
     gap: 0.6rem;
-    margin-left: auto; /* rechtsbündig */
-    padding-right: 20px;    
+    margin-left: auto;
+    padding-right: 20px;
   }
-
   .nav a {
-    display: block;           /* jeder Link ein Block */
-    width: auto;              /* volle Breite */
-    text-align: left;         /* Text linksbündig */
+    display: block;
+    width: auto;
+    text-align: left;
   }
 
+  /* Bild in Kursleitung ohne Float */
   .kursleitung-bild {
-    float: none;           /* Float deaktivieren */
-    display: block;        /* eigenes Blockelement */
-    margin: 0 0 12px 0;    /* nur unten Abstand */
+    float: none;
+    display: block;
+    margin: 0 0 12px 0;
   }
 
-    /* PDF/Flyer auf Mobile kleiner halten */
-  .pdf-viewer {
-    height: 60vh;      /* z.B. 60% der Bildschirmhöhe */
-  }
+  /* PDF/Flyer auf Mobile niedriger */
+  .pdf-viewer { height: 60vh; }
 }

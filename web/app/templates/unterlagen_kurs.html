@@ -13,7 +13,7 @@
     <ul class="lektionen">
       {% for l in lessons %}
         <li>
-          <a href="{{ url_for('unterlagen_lektion', slug=kurs.id, lesson_id=l.id) }}">
+          <a class="btn-link" href="{{ url_for('unterlagen_lektion', slug=kurs.id, lesson_id=l.id) }}">
             {{ l.titel }}
           </a>
           <small class="muted">({{ l.id }})</small>
@@ -25,5 +25,4 @@
     <p>Keine Lektionen gefunden. Erwartet z. B. <code>L01/index.md</code> …</p>
   {% endif %}
 
-  
 {% endblock %}

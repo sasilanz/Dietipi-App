@@ -173,15 +173,20 @@ tree -a -I .git
     └── requirements.txt
 ```
 
-## 6. Nützliche Compose‑Befehle
+## 6. CI/CD Deployment
 
-DEV (lokal, läuft auf 127.0.0.1:5001)
+### DEV (MacMini)
 ```bash
+docker compose -f compose.yml -f compose.dev.yml up -d --build
+```
+	•	Webapp: http://127.0.0.1:5001
+	•	Adminer: http://127.0.0.1:8081
 
-docker compose up -d                 # alles starten
-docker compose build webapp          # Web-Image neu bauen
-docker compose up -d webapp          # Web neu starten
-docker compose logs -f webapp        # Web-Logs ansehen
+### PROD (Pi)
+```bash
+cd /home/pi/Dietipi-App
+git pull
+docker compose -f compose.yml -f compose.prod.yml up -d --build
 ```
 
 
