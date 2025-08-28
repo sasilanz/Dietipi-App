@@ -40,12 +40,30 @@ def load_courses():
 
 
 def course_label(course_id: str) -> str:
+    """
+    Gibt das menschenlesbare Label für eine Kurs-ID zurück.
+    
+    Args:
+        course_id: Die eindeutige Kurs-ID
+    
+    Returns:
+        str: Das Kurs-Label oder die ID selbst als Fallback
+    """
     for c in load_courses():
         if c.get("id") == course_id:
             return c.get("label", course_id)
     return course_id
 
 def _split_front_matter(md_text: str):
+    """
+    Trennt YAML Front-Matter vom Markdown-Body.
+    
+    Args:
+        md_text: Markdown-Text möglicherweise mit Front-Matter
+    
+    Returns:
+        tuple: (meta_dict, body_text)
+    """
     if md_text.startswith("---"):
         parts = md_text.split("\n---", 1)
         if len(parts) == 2:
@@ -59,6 +77,17 @@ def _split_front_matter(md_text: str):
     return {}, md_text
 
 def _rewrite_relative_links(md_text: str, content_slug: str, lesson_id: str):
+    """
+    Schreibt relative Links in Markdown für Web-Anzeige um.
+    
+    Args:
+        md_text: Markdown-Text mit relativen Links
+        content_slug: Kurs-Slug für URL-Generierung
+        lesson_id: Lektions-ID für URL-Generierung
+    
+    Returns:
+        str: Markdown mit umgeschriebenen URLs
+    """
     # ./foo -> /u-asset/<course>/<lesson_id>/foo
     base_lesson = url_for("unterlagen_asset", course=content_slug, subpath=f"{lesson_id}/")
     md_text = md_text.replace("](./", f"]({base_lesson}")
