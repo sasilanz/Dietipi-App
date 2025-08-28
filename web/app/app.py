@@ -1,38 +1,26 @@
 # Standard library imports
-import os
 import json
-import re
 import logging
+import re
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
 
 # Third-party imports
-import requests
 import yaml
 from flask import Flask, render_template, request, redirect, url_for, abort, flash, send_file, send_from_directory
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
 
 # Local imports
+from .config import Config, create_database_engine, create_session_factory, get_payment_config, configure_logging
 from .models import Base, Participant
 from .forms import RegisterForm
 from .utils.content_loader import load_json
 from .utils.markdown_loader import list_lessons, render_lesson, course_dir, rewrite_relative_urls
 from .email_service import send_registration_emails
 
-try:
-    from zoneinfo import ZoneInfo
-    TZ = ZoneInfo("Europe/Zurich")
-except Exception:
-    TZ = None
-
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+configure_logging()
 logger = logging.getLogger(__name__)
 
 
@@ -109,25 +97,22 @@ def _rewrite_relative_links(md_text: str, content_slug: str, lesson_id: str):
 
 # --- App / Config ---
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = Config.SECRET_KEY
 
-ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
-
-DB_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DB_URL, pool_pre_ping=True) if DB_URL else None
-
+# Database setup
+engine = create_database_engine()
 if engine:
     Base.metadata.create_all(bind=engine)
-SessionLocal = sessionmaker(bind=engine) if engine else None
+SessionLocal = create_session_factory(engine)
 
 
 @app.context_processor
 def inject_admin_flag():
     is_admin = (
-        request.args.get("admin") == ADMIN_TOKEN
-        or request.headers.get("X-Admin-Token") == ADMIN_TOKEN
+        request.args.get("admin") == Config.ADMIN_TOKEN
+        or request.headers.get("X-Admin-Token") == Config.ADMIN_TOKEN
     )
-    return dict(is_admin=is_admin, token=(ADMIN_TOKEN if is_admin else None))
+    return dict(is_admin=is_admin, token=(Config.ADMIN_TOKEN if is_admin else None))
 
 
 # --- Admin Decorator ---
@@ -135,7 +120,7 @@ def require_admin(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.args.get("admin") or request.headers.get("X-Admin-Token")
-        if token != ADMIN_TOKEN:
+        if token != Config.ADMIN_TOKEN:
             abort(403)
         return f(*args, **kwargs)
     return decorated
@@ -250,7 +235,7 @@ def anmeldung():
 
         # Bestätigungs‑Mail via Resend
         try:
-            send_registration_emails(first, last, email, selected_course_label, TZ)
+            send_registration_emails(first, last, email, selected_course_label, Config.TIMEZONE)
         except Exception as e:
             logger.warning(f"E-Mail-Versand fehlgeschlagen: {e}")
 
@@ -262,15 +247,7 @@ def anmeldung():
 
 @app.get("/zahlung")
 def payment_info():
-    payment = {
-        "display_name": os.getenv("PAYEE_DISPLAY_NAME", "IT-Kurs Dietikon"),
-        "legal_name": os.getenv("PAYEE_LEGAL_NAME", ""),
-        "iban": os.getenv("PAYEE_IBAN", ""),
-        "bic": os.getenv("PAYEE_BIC", ""),
-        "bank": os.getenv("PAYEE_BANK", ""),
-        "purpose_prefix": os.getenv("PAYMENT_PURPOSE_PREFIX", "Kursgebühr"),
-        "contact_email": os.getenv("PAYMENT_EMAIL", ""),
-    }
+    payment = get_payment_config()
     return render_template("payment.html", payment=payment)
 
 
@@ -345,7 +322,7 @@ def list_participants():
         return {"error": "DB nicht konfiguriert"}, 500
     with SessionLocal() as s:
         participants = s.query(Participant).order_by(Participant.created_at.desc()).all()
-    return render_template("list_participants.html", participants=participants, token=ADMIN_TOKEN)
+    return render_template("list_participants.html", participants=participants, token=Config.ADMIN_TOKEN)
 
 
 @app.post("/teilnehmende/<int:pid>/paid")
@@ -355,7 +332,7 @@ def set_paid(pid: int):
         return {"error": "DB nicht konfiguriert"}, 500
 
     set_flag = 1 if (request.form.get("set") == "1") else 0
-    now = datetime.now(TZ) if TZ else datetime.now()
+    now = datetime.now(Config.TIMEZONE) if Config.TIMEZONE else datetime.now()
 
     with SessionLocal() as s:
         p = s.get(Participant, pid)
@@ -366,7 +343,7 @@ def set_paid(pid: int):
         p.payment_date = (now if set_flag else None)
         s.commit()
 
-    return redirect(url_for("list_participants") + f"?admin={ADMIN_TOKEN}")
+    return redirect(url_for("list_participants") + f"?admin={Config.ADMIN_TOKEN}")
 
 
 @app.post("/teilnehmende/new")
@@ -419,7 +396,7 @@ def delete_participant(pid: int):
 @app.get("/_admin")
 @require_admin
 def admin_home():
-    return render_template("admin_home.html", token=ADMIN_TOKEN)
+    return render_template("admin_home.html", token=Config.ADMIN_TOKEN)
 
 
 # --- Unterlagen (Einstieg) ---

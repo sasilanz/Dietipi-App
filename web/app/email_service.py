@@ -5,12 +5,13 @@ This module provides functionality for sending emails via Resend API
 and generating email templates for the IT-Kurs application.
 """
 
-import os
 import logging
 from datetime import datetime
 from typing import Optional
 
 import requests
+
+from .config import Config
 
 
 logger = logging.getLogger(__name__)
@@ -35,19 +36,16 @@ def send_email_api(to_email: str, subject: str, html: str, text: str = "") -> No
         - RESEND_API_KEY
         - EMAIL_FROM (optional, default: info@dieti-it.ch)
     """
-    if os.getenv("EMAIL_PROVIDER") != "resend":
+    if Config.EMAIL_PROVIDER != "resend":
         logger.warning("EMAIL_PROVIDER != 'resend' – Versand übersprungen")
         return
         
-    api_key = os.getenv("RESEND_API_KEY")
-    if not api_key:
+    if not Config.RESEND_API_KEY:
         logger.warning("RESEND_API_KEY fehlt – Versand übersprungen")
         return
 
-    from_addr = os.getenv("EMAIL_FROM", "info@dieti-it.ch")
-
     payload = {
-        "from": f"IT‑Kurs Dietikon <{from_addr}>",
+        "from": f"IT‑Kurs Dietikon <{Config.EMAIL_FROM}>",
         "to": [to_email],
         "subject": subject,
         "html": html
@@ -57,7 +55,7 @@ def send_email_api(to_email: str, subject: str, html: str, text: str = "") -> No
 
     r = requests.post(
         "https://api.resend.com/emails",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        headers={"Authorization": f"Bearer {Config.RESEND_API_KEY}", "Content-Type": "application/json"},
         json=payload, 
         timeout=15
     )
