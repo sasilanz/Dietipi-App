@@ -1,14 +1,23 @@
-from flask import Flask, render_template, request, redirect, url_for, abort, flash, send_file, send_from_directory 
+# Standard library imports
+import os
+import json
+import re
+from datetime import datetime
+from functools import wraps
+from pathlib import Path
+
+# Third-party imports
+import requests
+import yaml
+from flask import Flask, render_template, request, redirect, url_for, abort, flash, send_file, send_from_directory
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError
-from functools import wraps
+
+# Local imports
 from .models import Base, Participant
-import os, json, requests, re, yaml
-from datetime import datetime
 from .forms import RegisterForm
 from .utils.content_loader import load_json
-from pathlib import Path
 from .utils.markdown_loader import list_lessons, render_lesson, course_dir, rewrite_relative_urls
 
 try:
