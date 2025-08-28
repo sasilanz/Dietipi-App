@@ -20,6 +20,7 @@ from .models import Base, Participant
 from .forms import RegisterForm
 from .utils.content_loader import load_json
 from .utils.markdown_loader import list_lessons, render_lesson, course_dir, rewrite_relative_urls
+from .email_service import send_registration_emails
 
 try:
     from zoneinfo import ZoneInfo
@@ -140,36 +141,6 @@ def require_admin(f):
     return decorated
 
 
-# --- Mail ---
-def send_email_api(to_email: str, subject: str, html: str, text: str = ""):
-    """Versendet E‑Mails über Resend HTTP-API. Erwartet ENV:
-       EMAIL_PROVIDER=resend, RESEND_API_KEY=..., EMAIL_FROM=info@dieti-it.ch
-    """
-    if os.getenv("EMAIL_PROVIDER") != "resend":
-        logger.warning("EMAIL_PROVIDER != 'resend' – Versand übersprungen")
-        return
-    api_key = os.getenv("RESEND_API_KEY")
-    if not api_key:
-        logger.warning("RESEND_API_KEY fehlt – Versand übersprungen")
-        return
-
-    from_addr = os.getenv("EMAIL_FROM", "info@dieti-it.ch")
-
-    payload = {
-        "from": f"IT‑Kurs Dietikon <{from_addr}>",
-        "to": [to_email],
-        "subject": subject,
-        "html": html
-    }
-    if text:
-        payload["text"] = text
-
-    r = requests.post(
-        "https://api.resend.com/emails",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        json=payload, timeout=15
-    )
-    r.raise_for_status()
 
 
 # --- Routen: Public ---
@@ -278,50 +249,10 @@ def anmeldung():
             return render_template("register.html", form=form)
 
         # Bestätigungs‑Mail via Resend
-        subject = "Bestätigung deiner Anmeldung – IT-Kurs Dietikon"
-        html = f"""
-        <p>Hallo {first} {last},</p>
-        <p>Vielen Dank für Deine Anmeldung zum SeniorInnen IT-Kurs in Dietikon.</p>
-        <br><br>
-        <p>Mit diesem Link bekommst Du Infos zum Bezahlen der Kursgebühr:</p>
-        <br><br>
-        <p style="margin:16px 0;">
-        <a href="https://dieti-it.ch/zahlung"
-            style="display:inline-block;
-                    padding:10px 16px;
-                    background-color:#28a745;
-                    color:#ffffff;
-                    text-decoration:none;
-                    border-radius:6px;
-                    font-weight:600;">
-            💳 Jetzt bezahlen
-        </a>
-        </p>
-        <br><br>
-        <p>Falls der Button nicht funktioniert, nutze diesen Link:<br>
-        <a href="https://dieti-it.ch/zahlung">https://dieti-it.ch/zahlung</a>
-        </p>
-        <br>
-        <p>Herzliche Grüsse und bis bald<br><br>Astrid<br>IT-Kurs Dietikon</p>
-        """
-        ts = (datetime.now(TZ) if TZ else datetime.now()).strftime("%d.%m.%Y %H:%M")
-        admin_html = f"""
-        <p><strong>Neue Anmeldung</strong></p>
-        <ul>
-        <li><strong>Name:</strong> {first} {last}</li>
-        <li><strong>E-Mail:</strong> {email}</li>
-        <li><strong>Kurs:</strong> {selected_course_label}</li>
-        <li><strong>Datum/Zeit:</strong> {ts}</li>
-        </ul>
-        <hr>
-        {html}
-        """
-
         try:
-            send_email_api(email, subject, html)
-            send_email_api("astrid@dieti-it.ch", f"[Kopie] {subject}", admin_html)
+            send_registration_emails(first, last, email, selected_course_label, TZ)
         except Exception as e:
-            logger.warning(f"Bestätigungs-Mail fehlgeschlagen: {e}")
+            logger.warning(f"E-Mail-Versand fehlgeschlagen: {e}")
 
         return render_template("register_success.html", first=first)
 
