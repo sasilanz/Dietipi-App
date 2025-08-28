@@ -6,10 +6,20 @@ BASE_DIR = Path(__file__).resolve().parents[1]  # .../web/app
 CONTENT_DIR = BASE_DIR / "content"
 META_DIR = CONTENT_DIR / "meta"
 
-def load_json(filename: str):
+def load_json(filename: str) -> dict:
     """
-    Lädt JSON bevorzugt aus content/meta/, fällt ansonsten auf content/ zurück.
-    filename = Dateiname inkl. .json (z. B. 'home.json' oder 'courses.json')
+    Lädt JSON-Daten aus dem Content-Verzeichnis.
+    
+    Sucht bevorzugt in content/meta/, fällt auf content/ zurück.
+    
+    Args:
+        filename: Dateiname inkl. .json (z.B. 'courses.json', 'home.json')
+    
+    Returns:
+        dict: Die geladenen JSON-Daten
+    
+    Raises:
+        FileNotFoundError: Wenn die Datei in keinem der Suchpfade gefunden wird
     """
     for p in (META_DIR / filename, CONTENT_DIR / filename):
         if p.exists():

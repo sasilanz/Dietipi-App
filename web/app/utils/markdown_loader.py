@@ -7,15 +7,28 @@ BASE_DIR = Path(__file__).resolve().parents[1]  # .../web/app
 
 def course_dir(slug: str) -> Path:
     """
-    Pfad zur Durchführung:
-    content/unterlagen/durchfuehrungen/<slug>
+    Gibt den Pfad zum Verzeichnis einer spezifischen Kursdurchführung zurück.
+    
+    Args:
+        slug: Eindeutige Bezeichnung der Kursdurchführung
+    
+    Returns:
+        Path: Pfad zu content/unterlagen/durchfuehrungen/<slug>
     """
     return BASE_DIR / "content" / "unterlagen" / "durchfuehrungen" / slug
 
-def list_lessons(slug: str):
+def list_lessons(slug: str) -> list[dict]:
     """
-    Listet Lektionen aus durchfuehrungen/<slug>/Lxx/index.md
-    und liest Front‑Matter (id, title, order).
+    Listet alle verfügbaren Lektionen einer Kursdurchführung.
+    
+    Durchsucht durchfuehrungen/<slug>/Lxx/index.md Dateien und
+    extrahiert Metadaten aus dem Front-Matter.
+    
+    Args:
+        slug: Eindeutige Bezeichnung der Kursdurchführung
+    
+    Returns:
+        list[dict]: Liste der Lektionen mit id, titel, order
     """
     d = course_dir(slug)
     lessons = []
@@ -45,9 +58,19 @@ def list_lessons(slug: str):
     lessons.sort(key=lambda x: (x.get("order", 999), x.get("id", "")))
     return lessons
 
-def render_lesson(slug: str, lesson_id: str):
+def render_lesson(slug: str, lesson_id: str) -> tuple[dict | None, str | None, Path | None]:
     """
-    Rendert eine Lektion (Markdown -> HTML) und gibt (meta, html, folder) zurück.
+    Rendert eine spezifische Lektion von Markdown zu HTML.
+    
+    Args:
+        slug: Eindeutige Bezeichnung der Kursdurchführung
+        lesson_id: ID der Lektion (z.B. 'L01', 'L02')
+    
+    Returns:
+        tuple: (meta, html, folder) oder (None, None, None) falls nicht gefunden
+            - meta: Front-Matter Metadaten als dict
+            - html: Gerenderter HTML-Inhalt
+            - folder: Path zum Lektionsverzeichnis
     """
     md_path = course_dir(slug) / lesson_id / "index.md"
     if not md_path.exists():
