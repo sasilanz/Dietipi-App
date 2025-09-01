@@ -1,0 +1,37 @@
+# compose.backup.yml
+# Add this to your production deployment for automated backups
+
+services:
+  backup:
+    image: mysql:8.4
+    env_file: .env
+    environment:
+      BACKUP_DIR: /backups
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-7}
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: root
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - backup_data:/backups
+      - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [app]
+    # Run backup every 6 hours
+    command: >
+      sh -c "
+        chmod +x /usr/local/bin/backup.sh &&
+        echo 'Starting backup scheduler...' &&
+        while true; do
+          echo 'Running scheduled backup at $(date)' &&
+          /usr/local/bin/backup.sh &&
+          echo 'Next backup in 6 hours...' &&
+          sleep 21600
+        done
+      "
+    restart: unless-stopped
+
+volumes:
+  backup_data:

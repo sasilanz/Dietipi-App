@@ -285,6 +285,9 @@ docker compose -f compose.yml -f compose.prod.yml ps
 # Webapp reachable aus dem Netz?
 curl -I https://dieti-it.ch
 
+# Database Administration
+adminer.dieti-pi.ch
+
 ### LOGS
 docker compose -f compose.yml -f compose.prod.yml logs -n 50 webapp
 docker compose -f compose.yml -f compose.prod.yml logs -n 50 cloudflared
@@ -300,3 +303,61 @@ git commit -m "kurze message"
 git push
 ```
 
+### Security and Monitoring Features added 1.9.2025
+
+🔒 Security Enhancements:
+- Add rate limiting on registration endpoint (5 req/5min)
+- Implement security headers (CSP, XSS protection, HSTS)
+- Add input sanitization and enhanced validation
+- Create Swiss phone number and email validation with typo detection
+
+🛡️ Error Handling & Reliability:
+- Add global error handlers with custom error pages (404, 403, 500)
+- Implement comprehensive logging throughout application
+- Add database session management with proper error handling
+- Create graceful error recovery and user-friendly error messages
+
+📊 Monitoring & Observability:
+- Add health check endpoints (/health, /health/ready, /health/live)
+- Implement database connectivity monitoring
+- Add metrics endpoint for application monitoring
+- Create structured logging with proper error tracking
+
+⚡ Performance & Optimization:
+- Implement in-memory caching system for courses (10min TTL)
+- Add database indexes on frequently queried columns
+- Optimize database operations with connection pooling
+- Cache course loading to reduce I/O operations
+
+<0001f9ea> Testing & Quality:
+- Add comprehensive testing framework with pytest
+- Create test fixtures and mocks for all major components
+- Add validation tests for security functions
+- Implement CI/CD ready test structure
+
+🏗️ Code Architecture:
+- Modularize code into separate concerns (security, monitoring, database)
+- Add enhanced form validation with custom validators
+- Implement proper dependency management and fix duplicate requirements
+- Create reusable database utilities and session management
+
+✨ Additional Features:
+- Add admin monitoring capabilities
+- Implement proper timezone handling
+- Create email validation with common typo detection
+- Add Swiss-specific phone number validation
+
+## Database backup config and procedure
+•  Option 1: compose.backup.yml - Simple 6-hour loop
+•  Option 2: compose.backup-cron.yml - Cron every 6 hours (00:00, 06:00, 12:00, 18:00)
+•  Option 3: compose.backup-daily.yml - Daily at 2 AM
+
+
+🆘 Emergency Procedures:
+
+•  Manual backup: docker compose exec backup /usr/local/bin/backup.sh
+•  Restore latest: docker compose exec backup /usr/local/bin/restore.sh latest
+•  List backups: docker compose exec backup /usr/local/bin/restore.sh
+
+# Add backup service to production deployment
+docker compose -f compose.yml -f compose.prod.yml -f compose.backup.yml up -d

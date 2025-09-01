@@ -1,0 +1,35 @@
+# compose.backup-daily.yml
+# Daily backup at 2 AM - good for staging/smaller applications
+
+services:
+  backup-daily:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM mysql:8.4
+        RUN apt-get update && apt-get install -y cron && rm -rf /var/lib/apt/lists/*
+        COPY scripts/backup.sh /usr/local/bin/backup.sh
+        RUN chmod +x /usr/local/bin/backup.sh
+        # Daily backup at 2 AM
+        RUN echo "0 2 * * * /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1" | crontab -
+        CMD ["cron", "-f"]
+    env_file: .env
+    environment:
+      BACKUP_DIR: /backups
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-7}
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: root
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - backup_data:/backups
+      - backup_logs:/var/log
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [app]
+    restart: unless-stopped
+
+volumes:
+  backup_data:
+  backup_logs:

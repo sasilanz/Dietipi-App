@@ -27,10 +27,10 @@ Alle geheimen Variablen liegen nur lokal in .env (nicht im Repo).
 Beispiel .env (Projektroot):
 
 DB_ROOT_PASSWORD=supersecretroot
-DB_NAME=kursdb
-DB_USER=kursuser
-DB_PASSWORD=kurspass
-DATABASE_URL=mysql+pymysql://kursuser:kurspass@db:3306/kursdb
+DB_NAME=beispiel
+DB_USER=beispiel
+DB_PASSWORD=beispiel
+DATABASE_URL=mysql+pymysql://beispieluser:beispielpw@db:3306/db-name
 CLOUDFLARE_TUNNEL_TOKEN=eyJhIjoi...
 FLASK_DEBUG=0
 

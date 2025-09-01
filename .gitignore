@@ -1,3 +1,5 @@
 # sensitive .env files ignorieren
 .env
 !.env.example
+.manualDBadmin.md
+
