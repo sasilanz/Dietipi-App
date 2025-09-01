@@ -18,6 +18,11 @@ from .forms import RegisterForm
 from .utils.content_loader import load_json
 from .utils.markdown_loader import list_lessons, render_lesson, course_dir, rewrite_relative_urls
 from .email_service import send_registration_emails
+from .error_handlers import register_error_handlers
+from .security import register_security_features, rate_limit, sanitize_input
+from .database import get_db_session, set_session_factory
+from .monitoring import register_monitoring_endpoints
+from .cache import cached, cache_courses_key
 
 # Configure logging
 configure_logging()
@@ -25,6 +30,7 @@ logger = logging.getLogger(__name__)
 
 
 # --- Helper: Kurse laden (einheitliche Quelle) ---
+@cached(key_func=cache_courses_key, ttl=600)  # Cache for 10 minutes
 def load_courses():
     """
     Bevorzugt meta/courses.json, fallback auf content/alle_kurse.json (über load_json).
@@ -104,6 +110,9 @@ engine = create_database_engine()
 if engine:
     Base.metadata.create_all(bind=engine)
 SessionLocal = create_session_factory(engine)
+
+# Set global session factory for database module
+set_session_factory(SessionLocal)
 
 
 @app.context_processor
@@ -192,10 +201,11 @@ def kursleitung():
 
 
 @app.route("/anmeldung", methods=["GET", "POST"])
+@rate_limit(limit=5, window=300)  # 5 registrations per 5 minutes
 def anmeldung():
-    form = RegisterForm()
-
     courses = load_courses()
+    form = RegisterForm(course_loader_func=load_courses)
+
     # Formular-Kurswahl mit sichtbaren Kursen befüllen
     form.course_id.choices = [(c["id"], c["label"]) for c in courses if c.get("visible", False)]
 
@@ -454,6 +464,11 @@ def unterlagen_media(slug, relpath):
         return send_file(target)
     except Exception as e:
         return (f"Fehler beim Laden der Datei: {e}", 500)
+
+# Register additional modules
+register_error_handlers(app)
+register_security_features(app)
+register_monitoring_endpoints(app)
 
 # --- Debug local ---
 if __name__ == "__main__":

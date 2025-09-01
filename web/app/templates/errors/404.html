@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Seite nicht gefunden - SeniorInnen IT‑Kurs Dietikon{% endblock %}
+
+{% block content %}
+  <div style="text-align: center; padding: 2rem 0;">
+    <h1>🔍 Seite nicht gefunden</h1>
+    <p>Die gesuchte Seite konnte leider nicht gefunden werden.</p>
+    <p>Möglicherweise wurde sie verschoben oder der Link ist veraltet.</p>
+    
+    <div style="margin: 2rem 0;">
+      <a href="{{ url_for('index') }}" class="anmelde-button">Zur Startseite</a>
+      <a href="{{ url_for('kursliste') }}" class="anmelde-button">Zu den Kursen</a>
+    </div>
+    
+    <p style="color: #666; font-size: 0.9rem;">
+      Falls das Problem weiterhin besteht, kontaktieren Sie uns unter 
+      <a href="mailto:info@dieti-it.ch">info@dieti-it.ch</a>
+    </p>
+  </div>
+{% endblock %}

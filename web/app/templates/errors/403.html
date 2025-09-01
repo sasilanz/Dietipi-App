@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Zugriff verweigert - SeniorInnen IT‑Kurs Dietikon{% endblock %}
+
+{% block content %}
+  <div style="text-align: center; padding: 2rem 0;">
+    <h1>🚫 Zugriff verweigert</h1>
+    <p>Sie haben keine Berechtigung, diese Seite aufzurufen.</p>
+    
+    <div style="margin: 2rem 0;">
+      <a href="{{ url_for('index') }}" class="anmelde-button">Zur Startseite</a>
+    </div>
+    
+    <p style="color: #666; font-size: 0.9rem;">
+      Falls Sie der Meinung sind, dass Sie Zugriff haben sollten, 
+      kontaktieren Sie uns unter <a href="mailto:info@dieti-it.ch">info@dieti-it.ch</a>
+    </p>
+  </div>
+{% endblock %}

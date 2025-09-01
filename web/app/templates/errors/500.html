@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Technischer Fehler - SeniorInnen IT‑Kurs Dietikon{% endblock %}
+
+{% block content %}
+  <div style="text-align: center; padding: 2rem 0;">
+    <h1>⚠️ Technischer Fehler</h1>
+    <p>Es ist ein unerwarteter Fehler aufgetreten.</p>
+    <p>Wir arbeiten daran, das Problem zu beheben.</p>
+    
+    <div style="margin: 2rem 0;">
+      <a href="{{ url_for('index') }}" class="anmelde-button">Zur Startseite</a>
+    </div>
+    
+    <p style="color: #666; font-size: 0.9rem;">
+      Falls das Problem weiterhin besteht, kontaktieren Sie uns unter 
+      <a href="mailto:info@dieti-it.ch">info@dieti-it.ch</a>
+    </p>
+  </div>
+{% endblock %}
