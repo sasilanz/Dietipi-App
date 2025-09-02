@@ -1,15 +1,95 @@
 {% extends "base.html" %}
-{% block title %}Admin · IT‑Kurs{% endblock %}
+{% block title %}🔐 Admin-Dashboard · IT‑Kurs{% endblock %}
 
 {% block content %}
-  <h1>Admin</h1>
-  <p>Willkommen im Admin‑Bereich.</p>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>🔐 Admin-Dashboard</h1>
+    <p>Willkommen im geschützten Admin‑Bereich des IT-Kurses Dietikon</p>
+  </div>
 
-  <h2>Teilnehmende</h2>
-  <ul>
-    <li><a href="/teilnehmende?admin={{ token }}">Liste</a></li>
-    <li><a href="/teilnehmende/new?admin={{ token }}">Neu anlegen</a></li>
-  </ul>
+  <div class="admin-grid">
+    <div class="admin-card participants-card">
+      <h2>👥 Teilnehmende verwalten</h2>
+      <div class="card-content">
+        <p>Verwaltung aller Kursanmeldungen, Zahlungsstatus und Teilnehmerdaten.</p>
+        <div class="admin-actions">
+          <a href="/teilnehmende?admin={{ token }}" class="admin-btn primary">
+            📋 Alle anzeigen
+          </a>
+          <a href="/teilnehmende/new?admin={{ token }}" class="admin-btn secondary">
+            ➕ Neu hinzufügen
+          </a>
+        </div>
+      </div>
+    </div>
 
+    <div class="admin-card stats-card">
+      <h2>📊 Statistiken</h2>
+      <div class="card-content">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-item">
+            <span class="stat-number" id="totalCount">–</span>
+            <span class="stat-label">Gesamt</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="paidCount">–</span>
+            <span class="stat-label">Bezahlt</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="unpaidCount">–</span>
+            <span class="stat-label">Offen</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="admin-card tools-card">
+      <h2>🛠️ Tools & Export</h2>
+      <div class="card-content">
+        <p>Datenexport und erweiterte Verwaltungsoptionen.</p>
+        <div class="admin-actions">
+          <a href="/teilnehmende/export/csv?admin={{ token }}" class="admin-btn export">
+            📄 CSV Export
+          </a>
+          <button class="admin-btn info" onclick="loadQuickStats()">
+            🔄 Stats aktualisieren
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-info">
+    <h3>ℹ️ Hinweise</h3>
+    <ul>
+      <li>Alle Admin-Aktionen werden protokolliert</li>
+      <li>CSV-Export enthält alle Teilnehmerdaten (ohne Passwörter)</li>
+      <li>Die Zahlungsmarkierung setzt automatisch das Zahlungsdatum</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// Load statistics on page load
+document.addEventListener('DOMContentLoaded', loadQuickStats);
+
+function loadQuickStats() {
+  fetch('/api/participants/stats?admin={{ token }}')
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        console.error('Stats loading failed:', data.error);
+        return;
+      }
+      
+      document.getElementById('totalCount').textContent = data.total || '0';
+      document.getElementById('paidCount').textContent = data.paid || '0';
+      document.getElementById('unpaidCount').textContent = data.unpaid || '0';
+    })
+    .catch(error => {
+      console.error('Error loading stats:', error);
+    });
+}
+</script>
 {% endblock %}

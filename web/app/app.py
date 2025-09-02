@@ -409,6 +409,123 @@ def admin_home():
     return render_template("admin_home.html", token=Config.ADMIN_TOKEN)
 
 
+@app.get("/api/participants/stats")
+@require_admin
+def participants_stats():
+    """API endpoint for participant statistics"""
+    if not SessionLocal:
+        return {"error": "DB nicht konfiguriert"}, 500
+    
+    with SessionLocal() as s:
+        total = s.query(Participant).count()
+        paid = s.query(Participant).filter(Participant.paid == True).count()
+        unpaid = total - paid
+    
+    return {
+        "total": total,
+        "paid": paid,
+        "unpaid": unpaid
+    }
+
+
+@app.get("/teilnehmende/export/csv")
+@require_admin
+def export_participants_csv():
+    """Export participants as CSV file"""
+    if not SessionLocal:
+        return {"error": "DB nicht konfiguriert"}, 500
+    
+    import csv
+    import io
+    from flask import make_response
+    
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    # CSV Header
+    writer.writerow([
+        'ID', 'Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Kurs',
+        'Anmeldung', 'Bezahlt', 'Zahlungsdatum', 'Erstellt'
+    ])
+    
+    with SessionLocal() as s:
+        participants = s.query(Participant).order_by(Participant.created_at.desc()).all()
+        
+        for p in participants:
+            writer.writerow([
+                p.id,
+                p.first_name,
+                p.last_name,
+                p.email,
+                p.phone or '',
+                p.course_name or '',
+                'Ja' if p.paid else 'Nein',
+                p.payment_date.strftime('%d.%m.%Y %H:%M') if p.payment_date else '',
+                p.created_at.strftime('%d.%m.%Y %H:%M') if p.created_at else ''
+            ])
+    
+    output.seek(0)
+    
+    response = make_response(output.getvalue())
+    response.headers['Content-Type'] = 'text/csv; charset=utf-8'
+    response.headers['Content-Disposition'] = 'attachment; filename=teilnehmende.csv'
+    
+    return response
+
+
+@app.post("/api/participants/<int:pid>/update")
+@require_admin
+def update_participant_field():
+    """API endpoint for inline editing of participant fields"""
+    if not SessionLocal:
+        return {"error": "DB nicht konfiguriert"}, 500
+    
+    pid = request.view_args['pid']
+    data = request.get_json()
+    
+    if not data or 'field' not in data or 'value' not in data:
+        return {"error": "Ungültige Daten"}, 400
+    
+    field = data['field']
+    value = data['value'].strip() if data['value'] else None
+    
+    # Validate allowed fields
+    allowed_fields = ['first_name', 'last_name', 'email', 'phone']
+    if field not in allowed_fields:
+        return {"error": "Feld nicht erlaubt"}, 400
+    
+    with SessionLocal() as s:
+        p = s.get(Participant, pid)
+        if not p:
+            return {"error": "Teilnehmer nicht gefunden"}, 404
+        
+        # Special validation for email
+        if field == 'email' and value:
+            value = value.lower()
+            # Check if email already exists for another participant
+            existing = s.query(Participant).filter(
+                Participant.email == value, 
+                Participant.id != pid
+            ).first()
+            if existing:
+                return {"error": "E-Mail bereits vergeben"}, 409
+        
+        # Update the field
+        setattr(p, field, value)
+        
+        try:
+            s.commit()
+            return {
+                "success": True,
+                "field": field,
+                "value": value or "",
+                "display_value": value or "—"
+            }
+        except Exception as e:
+            s.rollback()
+            return {"error": f"Speichern fehlgeschlagen: {str(e)}"}, 500
+
+
 # --- Unterlagen (Einstieg) ---
 @app.get("/unterlagen", endpoint="unterlagen")
 def unterlagen():

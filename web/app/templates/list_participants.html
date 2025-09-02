@@ -1,46 +1,334 @@
-
 {% extends "base.html" %}
-{% block title %}Teilnehmende – Admin{% endblock %}
-{% block content %}
+{% block title %}👥 Teilnehmende – Admin{% endblock %}
 
-  <h1>Teilnehmende</h1>
-  <table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name / E‑Mail</th>
-      <th>Telefon</th>
-      <th>Kurs</th>
-      <th>Zahlung</th>
-      <th>Aktion</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for p in participants %}
-    <tr>
-      <td>{{ p.id }}</td>
-      <td>
-        {{ p.first_name }} {{ p.last_name }}<br>
-        <small>{{ p.email }}</small>
-      </td>
-      <td>{{ p.phone or "—" }}</td>
-      <td>{{ p.course_name or "—" }}</td>
-      <td>
-        {% if p.paid %}
-          ✅ Bezahlt
-          {% if p.payment_date %}<br><small>{{ p.payment_date.strftime('%d.%m.%Y %H:%M') }}</small>{% endif %}
-        {% else %}
-          ❌ Offen
-        {% endif %}
-      </td>
-      <td>
-        <form action="/teilnehmende/{{ p.id }}/paid?admin={{ token }}" method="post" style="display:inline;">
-          <input type="hidden" name="set" value="{{ 0 if p.paid else 1 }}">
-          <button type="submit">{{ "✗ zurücksetzen" if p.paid else "✓ markieren" }}</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% block content %}
+<div class="participants-table-container">
+  <div class="table-controls">
+    <h2>👥 Teilnehmende ({{ participants|length }})</h2>
+    <div class="search-filter-container">
+      <input type="text" id="searchBox" class="search-box" placeholder="Suchen nach Name, E-Mail..." onkeyup="filterTable()">
+      <select id="paymentFilter" class="filter-select" onchange="filterTable()">
+        <option value="all">Alle Zahlungen</option>
+        <option value="paid">Nur Bezahlt</option>
+        <option value="unpaid">Nur Offen</option>
+      </select>
+      <a href="/teilnehmende/export/csv?admin={{ token }}" class="admin-btn export">
+        📄 CSV Export
+      </a>
+    </div>
+  </div>
+  
+  <table class="participants-table" id="participantsTable">
+    <thead>
+      <tr>
+        <th class="sortable" onclick="sortTable(0)">ID</th>
+        <th class="sortable" onclick="sortTable(1)">Name</th>
+        <th class="sortable" onclick="sortTable(2)">E-Mail</th>
+        <th class="sortable" onclick="sortTable(3)">Telefon</th>
+        <th class="sortable" onclick="sortTable(4)">Kurs</th>
+        <th class="sortable" onclick="sortTable(5)">Anmeldung</th>
+        <th class="sortable" onclick="sortTable(6)">Status</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in participants %}
+      <tr data-payment-status="{{ 'paid' if p.paid else 'unpaid' }}">
+        <td>{{ p.id }}</td>
+        <td>
+          <div class="editable-field participant-name" data-field="first_name" data-id="{{ p.id }}" title="Doppelklick zum Bearbeiten">
+            {{ p.first_name }}
+          </div>
+          <div class="editable-field participant-name" data-field="last_name" data-id="{{ p.id }}" title="Doppelklick zum Bearbeiten">
+            {{ p.last_name }}
+          </div>
+        </td>
+        <td>
+          <div class="editable-field participant-email" data-field="email" data-id="{{ p.id }}" title="Doppelklick zum Bearbeiten">
+            {{ p.email }}
+          </div>
+        </td>
+        <td>
+          <div class="editable-field" data-field="phone" data-id="{{ p.id }}" title="Doppelklick zum Bearbeiten">
+            {{ p.phone or "—" }}
+          </div>
+        </td>
+        <td>{{ p.course_name or "—" }}</td>
+        <td>{{ p.created_at.strftime('%d.%m.%Y') if p.created_at else "—" }}</td>
+        <td>
+          <div class="payment-status {{ 'paid' if p.paid else 'unpaid' }}">
+            {% if p.paid %}
+              ✅ Bezahlt
+              {% if p.payment_date %}<br><small>{{ p.payment_date.strftime('%d.%m.%Y %H:%M') }}</small>{% endif %}
+            {% else %}
+              ❌ Offen
+            {% endif %}
+          </div>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <a href="/teilnehmende/{{ p.id }}/edit?admin={{ token }}" class="action-btn edit">
+              ✏️ Bearbeiten
+            </a>
+            <form action="/teilnehmende/{{ p.id }}/paid?admin={{ token }}" method="post" style="display:inline;">
+              <input type="hidden" name="set" value="{{ 0 if p.paid else 1 }}">
+              <button type="submit" class="action-btn toggle-payment">
+                {{ "💰 Bezahlt" if not p.paid else "❌ Reset" }}
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="admin-actions" style="margin-top: 1.5rem; padding: 0 1rem;">
+  <a href="/teilnehmende/new?admin={{ token }}" class="admin-btn secondary">
+    ➕ Neuen Teilnehmer hinzufügen
+  </a>
+  <a href="/_admin?admin={{ token }}" class="admin-btn info">
+    🏠 Zurück zum Dashboard
+  </a>
+</div>
+
+<script>
+let sortDirection = {};
+
+function sortTable(columnIndex) {
+  const table = document.getElementById('participantsTable');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const th = table.querySelectorAll('th')[columnIndex];
+  
+  // Toggle sort direction
+  const currentDirection = sortDirection[columnIndex] || 'asc';
+  const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+  sortDirection[columnIndex] = newDirection;
+  
+  // Reset all header classes
+  table.querySelectorAll('th').forEach(header => {
+    header.classList.remove('sort-asc', 'sort-desc');
+  });
+  
+  // Set current header class
+  th.classList.add(newDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+  
+  // Sort rows
+  rows.sort((a, b) => {
+    const aValue = a.cells[columnIndex].textContent.trim();
+    const bValue = b.cells[columnIndex].textContent.trim();
+    
+    // Handle numeric values (ID column)
+    if (columnIndex === 0) {
+      const aNum = parseInt(aValue) || 0;
+      const bNum = parseInt(bValue) || 0;
+      return newDirection === 'asc' ? aNum - bNum : bNum - aNum;
+    }
+    
+    // Handle date values
+    if (columnIndex === 5) {
+      const aDate = new Date(aValue.split('.').reverse().join('-'));
+      const bDate = new Date(bValue.split('.').reverse().join('-'));
+      return newDirection === 'asc' ? aDate - bDate : bDate - aDate;
+    }
+    
+    // Handle text values
+    const result = aValue.localeCompare(bValue);
+    return newDirection === 'asc' ? result : -result;
+  });
+  
+  // Re-append sorted rows
+  rows.forEach(row => tbody.appendChild(row));
+}
+
+function filterTable() {
+  const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+  const paymentFilter = document.getElementById('paymentFilter').value;
+  const table = document.getElementById('participantsTable');
+  const rows = table.querySelectorAll('tbody tr');
+  
+  let visibleCount = 0;
+  
+  rows.forEach(row => {
+    const name = row.cells[1].textContent.toLowerCase();
+    const email = row.cells[2].textContent.toLowerCase();
+    const phone = row.cells[3].textContent.toLowerCase();
+    const course = row.cells[4].textContent.toLowerCase();
+    const paymentStatus = row.getAttribute('data-payment-status');
+    
+    // Check search filter
+    const matchesSearch = searchTerm === '' || 
+                         name.includes(searchTerm) || 
+                         email.includes(searchTerm) || 
+                         phone.includes(searchTerm) || 
+                         course.includes(searchTerm);
+    
+    // Check payment filter
+    const matchesPayment = paymentFilter === 'all' || paymentStatus === paymentFilter;
+    
+    if (matchesSearch && matchesPayment) {
+      row.style.display = '';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  
+  // Update header count
+  document.querySelector('.table-controls h2').textContent = 
+    `👥 Teilnehmende (${visibleCount} von {{ participants|length }})`;
+}
+
+// Advanced AJAX inline editing
+function enableInlineEditing() {
+  const editableElements = document.querySelectorAll('.editable-field');
+  
+  editableElements.forEach(element => {
+    let originalValue = '';
+    let isEditing = false;
+    
+    element.addEventListener('dblclick', function() {
+      if (isEditing) return;
+      
+      isEditing = true;
+      originalValue = this.textContent.trim();
+      
+      // Create input field
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = originalValue === '—' ? '' : originalValue;
+      input.className = 'inline-edit-input';
+      input.style.cssText = `
+        width: 100%;
+        padding: 4px 8px;
+        border: 2px solid #4facfe;
+        border-radius: 4px;
+        background: #fff;
+        font-size: inherit;
+        font-family: inherit;
+      `;
+      
+      // Replace content with input
+      this.innerHTML = '';
+      this.appendChild(input);
+      input.focus();
+      input.select();
+      
+      // Save function
+      const saveValue = async () => {
+        const newValue = input.value.trim();
+        const participantId = this.dataset.id;
+        const fieldName = this.dataset.field;
+        
+        if (newValue === originalValue || (newValue === '' && originalValue === '—')) {
+          // No change, just restore
+          this.textContent = originalValue;
+          isEditing = false;
+          return;
+        }
+        
+        // Show loading state
+        this.innerHTML = '⏳ Speichern...';
+        this.style.color = '#666';
+        
+        try {
+          const response = await fetch(`/api/participants/${participantId}/update?admin={{ token }}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              field: fieldName,
+              value: newValue
+            })
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            // Update display with new value
+            this.textContent = result.display_value;
+            this.style.color = '';
+            
+            // Visual feedback for success
+            this.style.background = '#d4edda';
+            setTimeout(() => {
+              this.style.background = '';
+            }, 1000);
+            
+            // Update search index if name changed
+            if (fieldName.includes('name')) {
+              setTimeout(filterTable, 100);
+            }
+          } else {
+            // Error handling
+            this.textContent = originalValue;
+            this.style.color = '';
+            this.style.background = '#f8d7da';
+            
+            // Show error message
+            const errorMsg = document.createElement('div');
+            errorMsg.textContent = result.error || 'Fehler beim Speichern';
+            errorMsg.style.cssText = `
+              position: absolute;
+              background: #dc3545;
+              color: white;
+              padding: 4px 8px;
+              border-radius: 4px;
+              font-size: 0.8rem;
+              z-index: 1000;
+              margin-top: 2px;
+            `;
+            this.appendChild(errorMsg);
+            
+            setTimeout(() => {
+              this.style.background = '';
+              if (errorMsg.parentNode) {
+                errorMsg.remove();
+              }
+            }, 3000);
+          }
+        } catch (error) {
+          // Network error
+          this.textContent = originalValue;
+          this.style.color = '';
+          this.style.background = '#f8d7da';
+          console.error('Save error:', error);
+          
+          setTimeout(() => {
+            this.style.background = '';
+          }, 2000);
+        }
+        
+        isEditing = false;
+      };
+      
+      // Cancel function
+      const cancelEdit = () => {
+        this.textContent = originalValue;
+        isEditing = false;
+      };
+      
+      // Event listeners
+      input.addEventListener('blur', saveValue);
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          saveValue();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          cancelEdit();
+        }
+      });
+    });
+  });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  enableInlineEditing();
+});
+</script>
 {% endblock %}
