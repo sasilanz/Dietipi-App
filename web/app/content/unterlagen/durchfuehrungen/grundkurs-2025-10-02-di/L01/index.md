@@ -19,7 +19,7 @@ order: 1
 
 <br><br>
 
-- [Mentimeter login:](https://menti.com) mit Code:**7305 5908**
+- [Mentimeter login:](https://menti.com) mit Code:**7305 5908**    <br>(funktioniert erst am Kurstag)
 - oder QR-Code direkt zur Umfrage: <br><br>
 ![QR](./mentimeter_qr_L01.png)
 <br><br>
