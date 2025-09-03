@@ -25,9 +25,10 @@
         <th class="sortable" onclick="sortTable(1)">Name</th>
         <th class="sortable" onclick="sortTable(2)">E-Mail</th>
         <th class="sortable" onclick="sortTable(3)">Telefon</th>
-        <th class="sortable" onclick="sortTable(4)">Kurs</th>
-        <th class="sortable" onclick="sortTable(5)">Anmeldung</th>
-        <th class="sortable" onclick="sortTable(6)">Status</th>
+        <th class="sortable" onclick="sortTable(4)">Adresse</th>
+        <th class="sortable" onclick="sortTable(5)">Kurs</th>
+        <th class="sortable" onclick="sortTable(6)">Anmeldung</th>
+        <th class="sortable" onclick="sortTable(7)">Status</th>
         <th>Aktionen</th>
       </tr>
     </thead>
@@ -52,6 +53,16 @@
           <div class="editable-field" data-field="phone" data-id="{{ p.id }}" title="Doppelklick zum Bearbeiten">
             {{ p.phone or "—" }}
           </div>
+        </td>
+        <td>
+          {% if p.street or p.house_number or p.postal_code or p.city %}
+            <div style="font-size: 0.9rem;">
+              {% if p.street %}{{ p.street }}{% if p.house_number %} {{ p.house_number }}{% endif %}<br>{% endif %}
+              {% if p.postal_code %}{{ p.postal_code }}{% if p.city %} {{ p.city }}{% endif %}{% endif %}
+            </div>
+          {% else %}
+            —
+          {% endif %}
         </td>
         <td>{{ p.course_name or "—" }}</td>
         <td>{{ p.created_at.strftime('%d.%m.%Y') if p.created_at else "—" }}</td>
@@ -128,7 +139,7 @@ function sortTable(columnIndex) {
     }
     
     // Handle date values
-    if (columnIndex === 5) {
+    if (columnIndex === 6) {
       const aDate = new Date(aValue.split('.').reverse().join('-'));
       const bDate = new Date(bValue.split('.').reverse().join('-'));
       return newDirection === 'asc' ? aDate - bDate : bDate - aDate;
@@ -155,7 +166,8 @@ function filterTable() {
     const name = row.cells[1].textContent.toLowerCase();
     const email = row.cells[2].textContent.toLowerCase();
     const phone = row.cells[3].textContent.toLowerCase();
-    const course = row.cells[4].textContent.toLowerCase();
+    const address = row.cells[4].textContent.toLowerCase();
+    const course = row.cells[5].textContent.toLowerCase();
     const paymentStatus = row.getAttribute('data-payment-status');
     
     // Check search filter

@@ -12,6 +12,13 @@ class Participant(Base):
     last_name: Mapped[str] = mapped_column(String(80), nullable=False)
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     phone: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    
+    # Address fields
+    street: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    house_number: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    postal_code: Mapped[str | None] = mapped_column(String(10), nullable=True)
+    city: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    
     course_name: Mapped[str | None] = mapped_column(String(120), nullable=True)
     paid: Mapped[bool]  = mapped_column(Boolean, nullable=False, default=False)   # mapped auf TINYINT(1)
     payment_date: Mapped[DateTime | None] = mapped_column(DateTime(timezone=True), nullable=True)

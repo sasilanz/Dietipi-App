@@ -215,6 +215,12 @@ def anmeldung():
         email = form.email.data.strip().lower() if form.email.data else None
         phone = form.phone.data.strip() if form.phone.data else None
         course_id = form.course_id.data
+        
+        # Address fields
+        street = form.street.data.strip() if form.street.data else None
+        house_number = form.house_number.data.strip() if form.house_number.data else None
+        postal_code = form.postal_code.data.strip() if form.postal_code.data else None
+        city = form.city.data.strip() if form.city.data else None
 
         # Kurs-Label ermitteln für DB / Mail
         selected_course_label = next((c["label"] for c in courses if c["id"] == course_id), None)
@@ -235,6 +241,10 @@ def anmeldung():
                     last_name=last,
                     email=email,
                     phone=phone,
+                    street=street,
+                    house_number=house_number,
+                    postal_code=postal_code,
+                    city=city,
                     course_name=selected_course_label,
                 )
                 s.add(p)
@@ -444,8 +454,8 @@ def export_participants_csv():
     
     # CSV Header
     writer.writerow([
-        'ID', 'Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Kurs',
-        'Anmeldung', 'Bezahlt', 'Zahlungsdatum', 'Erstellt'
+        'ID', 'Vorname', 'Nachname', 'E-Mail', 'Telefon', 'Straße', 'Hausnummer', 'PLZ', 'Ort', 'Kurs',
+        'Bezahlt', 'Zahlungsdatum', 'Erstellt'
     ])
     
     with SessionLocal() as s:
@@ -458,6 +468,10 @@ def export_participants_csv():
                 p.last_name,
                 p.email,
                 p.phone or '',
+                p.street or '',
+                p.house_number or '',
+                p.postal_code or '',
+                p.city or '',
                 p.course_name or '',
                 'Ja' if p.paid else 'Nein',
                 p.payment_date.strftime('%d.%m.%Y %H:%M') if p.payment_date else '',

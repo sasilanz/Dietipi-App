@@ -32,6 +32,36 @@ class RegisterForm(FlaskForm):
             SwissPhoneValidator()
         ]
     )
+    
+    # Address fields
+    street = StringField(
+        "Straße",
+        validators=[
+            Optional(),
+            Length(max=120, message="Straße darf maximal 120 Zeichen lang sein.")
+        ]
+    )
+    house_number = StringField(
+        "Hausnummer",
+        validators=[
+            Optional(),
+            Length(max=20, message="Hausnummer darf maximal 20 Zeichen lang sein.")
+        ]
+    )
+    postal_code = StringField(
+        "PLZ",
+        validators=[
+            Optional(),
+            Length(min=4, max=10, message="PLZ muss zwischen 4 und 10 Zeichen lang sein.")
+        ]
+    )
+    city = StringField(
+        "Ort",
+        validators=[
+            Optional(),
+            Length(max=80, message="Ort darf maximal 80 Zeichen lang sein.")
+        ]
+    )
     course_id = SelectField(
         "Kurs", 
         validators=[

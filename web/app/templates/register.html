@@ -43,6 +43,33 @@
       {{ form.phone(class="form-control", id=form.phone.id) }}
     </div>
 
+    <!-- Address Section -->
+    <div class="form-section" style="margin-top: 1.5rem;">
+      <h3 style="color: #333; font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">­Adresse (optional)</h3>
+      
+      <div class="row" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+        <div style="flex: 3;">
+          <label for="{{ form.street.id }}">Straße</label>
+          {{ form.street(class="form-control", id=form.street.id, placeholder="z.B. Bahnhofstrasse") }}
+        </div>
+        <div style="flex: 1;">
+          <label for="{{ form.house_number.id }}">Nr.</label>
+          {{ form.house_number(class="form-control", id=form.house_number.id, placeholder="12a") }}
+        </div>
+      </div>
+      
+      <div class="row" style="display: flex; gap: 1rem;">
+        <div style="flex: 1;">
+          <label for="{{ form.postal_code.id }}">PLZ</label>
+          {{ form.postal_code(class="form-control", id=form.postal_code.id, placeholder="8953") }}
+        </div>
+        <div style="flex: 2;">
+          <label for="{{ form.city.id }}">Ort</label>
+          {{ form.city(class="form-control", id=form.city.id, placeholder="Dietikon") }}
+        </div>
+      </div>
+    </div>
+
     {% if info %}
       <div class="alert alert-info" style="margin-top:1rem;">{{ info }}</div>
     {% endif %}
