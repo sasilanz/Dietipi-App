@@ -379,7 +379,14 @@ section.kursleitung img {
   background: #0077cc;
   color: #fff;
 }
-
+/* Zentrierung */
+.lesson-body .center {
+  text-align: center;
+}
+.lesson-body img.center {
+  display: block;
+  margin: 0 auto;
+}
 
 /* ==== Print-Ansicht ======================================================= */
 

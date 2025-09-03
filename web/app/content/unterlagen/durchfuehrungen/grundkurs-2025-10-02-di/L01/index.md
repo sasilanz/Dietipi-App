@@ -1,14 +1,31 @@
 ---
 id: L01
-title: Dummy-Lektion 1
+title: "Lektion 1: Einstieg"
 order: 1
 ---
 
-### **Willkommen!** Das ist eine Testseite.
+## **Willkommen zur ersten Lektion !**
 
-- Test-Bild im Lektionsordner: ![Foto](./testbild.png)
-- Inhalt vom Asset-Folder: ![QR](../assets/bank_qr.png)
 
-[Handout PDF](/static/docs/grundkurs-2025/G-L01-handout.pdf)
+## 📋 **Heutiger Ablauf**
+| Zeit | Inhalt | Was machen wir? |
+|------|---------|-----------------|
+| 09:30 | 👋 Begrüssung | Kennenlernen in entspannter Atmosphäre |
+| 09:45 | 📱 Erste digitale Erfahrung | Mentimeter-Umfrage gemeinsam |
+| 10:15 | ☕ Kaffeepause | Zeit zum Austausch |
+| 10:30 | 💻 Computer-Hardware  | Was ist eigentlich ein Computer? |
+| 11:15 | 📝 Zusammenfassung | Was haben wir gelernt? |
+| 11:30 | 📝 Ende  |
+
+<br><br>
+
+- [Mentimeter login:](https://menti.com) mit Code:**7305 5908**
+- oder QR-Code direkt zur Umfrage: <br><br>
+![QR](./mentimeter_qr_L01.png)
+<br><br>
+
+
+
+
 
 [📄 Handout L01](/static/docs/grundkurs-2025/G-L01-handout.pdf){.download-link}

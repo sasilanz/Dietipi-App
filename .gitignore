@@ -2,4 +2,5 @@
 .env
 !.env.example
 .manualDBadmin.md
+.admin
 
