@@ -575,6 +575,60 @@ def unterlagen_lektion(slug, lesson_id):
     return render_template("unterlagen_lektion.html", kurs=kurs, meta=meta, html=html)
 
 
+# Markdown-Datei aus assets-Ordner rendern
+@app.get("/unterlagen/<slug>/assets/<path:filename>")
+def unterlagen_assets_markdown(slug, filename):
+    """
+    Rendert Markdown-Dateien aus dem assets-Ordner eines Kurses.
+    """
+    # Prüfen ob Kurs existiert und sichtbar ist
+    kurs = next((c for c in load_courses() if c.get("visible", False) and c["id"] == slug), None)
+    if not kurs:
+        return ("<p>Kurs nicht gefunden.</p><p><a href='/unterlagen'>Zur Übersicht</a></p>"), 404
+    
+    # Nur .md Dateien erlauben
+    if not filename.endswith('.md'):
+        return "Nur Markdown-Dateien erlaubt", 400
+    
+    # Pfad zur Markdown-Datei
+    md_path = course_dir(slug) / "assets" / filename
+    if not md_path.exists() or not md_path.is_file():
+        return (f"<p>Datei nicht gefunden.</p><p><a href='/unterlagen/{slug}'>Zurück</a></p>"), 404
+    
+    try:
+        # Markdown-Datei lesen und parsen
+        import markdown
+        raw = md_path.read_text(encoding="utf-8")
+        
+        # Front-Matter extrahieren (falls vorhanden)
+        meta = {}
+        body = raw
+        if raw.startswith("---"):
+            head, _, rest = raw.partition("\n---")
+            try:
+                import yaml
+                meta = yaml.safe_load(head.replace("---", "", 1)) or {}
+            except Exception:
+                meta = {}
+            body = rest.lstrip("\n")
+        
+        # Markdown zu HTML konvertieren
+        html = markdown.markdown(body, extensions=["extra", "fenced_code", "tables"])
+        
+        # Relative URLs umschreiben für assets-Kontext
+        html = rewrite_relative_urls(html, slug, "assets")
+        
+        # Titel aus Meta oder Dateiname
+        title = meta.get("title", filename.replace(".md", "").replace("_", " ").title())
+        
+        return render_template("unterlagen_lektion.html", 
+                             kurs=kurs, 
+                             meta={"title": title, **meta}, 
+                             html=html)
+    
+    except Exception as e:
+        return (f"Fehler beim Rendern der Datei: {e}", 500)
+
 # Media-Auslieferung für Kurs-Unterlagen (sicher)
 @app.get("/unterlagen/<slug>/media/<path:relpath>")
 def unterlagen_media(slug, relpath):
