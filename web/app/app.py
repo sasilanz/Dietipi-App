@@ -91,12 +91,12 @@ def _rewrite_relative_links(md_text: str, content_slug: str, lesson_id: str):
     Returns:
         str: Markdown mit umgeschriebenen URLs
     """
-    # ./foo -> /u-asset/<course>/<lesson_id>/foo
-    base_lesson = url_for("unterlagen_asset", course=content_slug, subpath=f"{lesson_id}/")
+    # ./foo -> /unterlagen/<course>/media/<lesson_id>/foo
+    base_lesson = url_for("unterlagen_media", slug=content_slug, relpath=f"{lesson_id}/")
     md_text = md_text.replace("](./", f"]({base_lesson}")
 
-    # ../assets/foo -> /u-asset/<course>/assets/foo
-    base_assets = url_for("unterlagen_asset", course=content_slug, subpath="assets/")
+    # ../assets/foo -> /unterlagen/<course>/media/assets/foo
+    base_assets = url_for("unterlagen_media", slug=content_slug, relpath="assets/")
     md_text = md_text.replace("](../assets/", f"]({base_assets}")
 
     return md_text
