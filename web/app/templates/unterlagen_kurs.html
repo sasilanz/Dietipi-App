@@ -2,8 +2,8 @@
 {% block content %}
 
 <a class="breadcrumb" href="{{ url_for('unterlagen') }}">← Zurück zur Übersicht</a>
-<h1>!!! Platzhalter !!!</h1>
-<p>Später kommen hier die Unterlagen für jede Lektion</p>
+<h1>Grundkurs Unterlagen</h1>
+<p>Die Unterlagen sind nach Lektionen aufgeführt. Später, wenn es mehr gibt, kommt allenfalls noch eine Suchfunktion nach Thema dazu.</p>
   <h1>Unterlagen zum {{ kurs.label or kurs.id }}</h1>
 
   {% if lessons and lessons|length > 0 %}
