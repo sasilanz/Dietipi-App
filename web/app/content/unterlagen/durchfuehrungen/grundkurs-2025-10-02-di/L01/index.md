@@ -32,6 +32,4 @@ order: 1
 <br><br>
 ---
 
-<br>
-## 📄 Windows 10 Supportverlängerung nach dem 13.Oktober 2025
-[🪟 Windows 10 ESU - gut zu wissen](/unterlagen/grundkurs-2025-10-02-di/assets/Win10ESU.md){.download-link}
+

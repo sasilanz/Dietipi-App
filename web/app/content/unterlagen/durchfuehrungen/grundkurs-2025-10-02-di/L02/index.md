@@ -101,10 +101,3 @@ Quellen:
 - [Netzwerkrouting mit tiefergehenden details erklärt von Jürg Arnold](https://edu.juergarnold.ch/tcpipstack.html)
 
 
-
-
-
-fixe Links 
-
-- [🪟 Windows 10 ESU - gut zu wissen](/unterlagen/grundkurs-2025-10-02-di/assets/Win10ESU.md){.download-link}
-
