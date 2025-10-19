@@ -1,0 +1,31 @@
+<!-- ...existing code... -->
+{% extends "base.html" %}
+{% block title %}Privater IT‑Support – Startseite{% endblock %}
+
+{% block content %}
+  <section>
+    <h1>Privater IT‑Support & Einzelstunden</h1>
+    <p>Ich biete individuellen IT‑Support für Senior:innen in Dietikon und Umgebung:
+       Hilfe bei Handy, Computer, E‑Mail, Online‑Banking (QR‑Code), Drucker‑Einrichtung und mehr.</p>
+
+    <p>
+      <strong>Kontakt:</strong> <a href="mailto:astrid@dieti-it.ch">astrid@dieti-it.ch</a><br>
+      <strong>Tel:</strong> <a href="tel:+41764974262">076 497 42 62</a>
+    </p>
+
+    <p>
+      <a class="anmelde-button" href="{{ url_for('portal') }}">Zum Kursportal (Unterlagen & Anmeldung)</a>
+      <a class="download-button" href="{{ url_for('flyer') }}" target="_blank">Flyer ansehen</a>
+    </p>
+
+    <section style="margin-top:1.2rem;">
+      <h2>Was ich anbiete</h2>
+      <ul>
+        <li>Einzelcoaching vor Ort oder per Remote</li>
+        <li>Einrichtung von Geräten & Sicherheits‑Checks</li>
+        <li>Begleitung bei Online‑Anmeldungen & Bankgeschäften</li>
+      </ul>
+    </section>
+  </section>
+{% endblock %}
+<!-- ...existing code... -->

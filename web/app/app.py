@@ -140,7 +140,14 @@ def require_admin(f):
 # --- Routen: Public ---
 @app.get("/")
 def index():
-    # Startseite kann (optional) sichtbare Kurse anzeigen
+    # Neue Landing / primäre Startseite (privater IT‑Support)
+    # Rendert template 'landing.html' (muss neu angelegt werden)
+    return render_template("landing.html")
+
+# Neue Route für das bestehende Portal (frühere Startseite)
+@app.get("/portal", endpoint="portal")
+def portal():
+    # Benutzt dieselbe Kursquelle wie vorher
     courses = [c for c in load_courses() if c.get("visible", False)]
     return render_template("index.html", courses=courses)
 
