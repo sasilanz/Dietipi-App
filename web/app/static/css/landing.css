@@ -1,3 +1,48 @@
+/* ==== Hero Header ========================================================= */
+.hero-header {
+  /* background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); */
+ background: linear-gradient(155deg, #2575fc 0%, #6a29ae 100%); 
+  /* background: linear-gradient(135deg, #f8b4d4 0%, #e8a0c7 100%); */
+  color: white;
+  text-align: center;
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem 0;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.4rem;
+  margin: 0 0 0.8rem 0;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.hero-tagline {
+  font-size: 1.1rem;
+  margin: 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .hero-header {
+    padding: 3rem 1rem;
+  }
+  .hero-content h1 {
+    font-size: 2.2rem;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
 /* ==== Basislayout ========================================================= */
 
 body {
@@ -7,7 +52,13 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #eef3f9; /* sanftes bläulich-hellgrau */
+    /* background-color: #eef3f9; /* sanftes bläulich-hellgrau */
+    /* background-color: #f0f4ff; /* sanftes lavendel-blau */
+    /* background-color: #f5f7ff; /* zartes blau-grau */
+    /* background-color: #f9f9fb; /* warmgrau mit leichtem lila-stich */
+    background-color: #f7ede9; /* zartes rosa beige */
+    /* background-color: #f2f4f1; /* sehr helles grün-grau */
+   
 }
 
 header { text-align: center; margin-bottom: 2rem; }
@@ -190,7 +241,7 @@ form button, .anmelde-button {
   font-size: 1.15rem;
   font-weight: bold;
   color: #fff;
-  background-color: #862cca;
+  background-color: #0077cc;
   border-radius: 6px;
   text-decoration: none;
   transition: background-color 0.2s ease, transform 0.1s ease;

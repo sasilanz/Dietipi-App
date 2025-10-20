@@ -10,12 +10,13 @@
   <header class="site-header">
   <div class="wrap header-layout">
     <div class="nav-group">
-      <a class="home-button" href="/">Startseite</a>
+      <a class="home-button" href="/">IT Support</a>
       <nav class="nav">
+        <a href="{{ url_for('portal') }}">Kursportal</a>
         <a href="{{ url_for('kursliste') }}">Kurse</a>
-        <a href="{{ url_for('kursleitung') }}">Kursleitung</a>
-        <a href="{{ url_for('payment_info') }}">Zahlung</a>
-        <a href="{{ url_for('unterlagen') }}">Unterlagen</a>
+        <a href="{{ url_for('kursleitung') }}">Über mich</a>
+        <!-- <a href="{{ url_for('payment_info') }}">Zahlung</a> -->
+        <!-- <a href="{{ url_for('unterlagen') }}">Unterlagen</a> -->
         <!-- … deine weiteren Links … -->
   {% if token %}
     <a href="/_admin?admin={{ token }}" class="home-button">Admin-Home</a>
@@ -32,7 +33,7 @@
 
   <footer class="site-footer">
     <div class="wrap small">
-      © 2025 IT‑Kurs Dietikon | Astrid Lanz | 
+      © 2025 IT‑Support Dietikon | Astrid Lanz | 
       Kontakt: <a href="mailto:astrid@dieti-it.ch">astrid@dieti-it.ch</a>, <a href="tel:+41764974262">Tel: 076 497 42 62</a>
     </div>
   </footer>

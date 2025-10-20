@@ -1,31 +1,75 @@
-<!-- ...existing code... -->
-{% extends "base.html" %}
-{% block title %}Privater IT‑Support – Startseite{% endblock %}
 
+<!-- landing_base.html -->
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}IT-Support Dietikon{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename='css/landing.css') }}" rel="stylesheet">
+</head>
+<body>
+  <!-- Hero Header -->
+  <header class="hero-header">
+    <div class="hero-content">
+      <h1>Hilfe bei IT-Fragen benötigt ?</h1>
+      <p class="hero-subtitle">Informatik Spezialistin mit Leidenschaft und Feingefühl</p>
+      <p class="hero-tagline">Entspannt und kompetent - speziell für Frauen</p>
+    </div>
+  </header>
+
+  <main class="wrap">
 {% block content %}
   <section>
-    <h1>Privater IT‑Support & Einzelstunden</h1>
-    <p>Ich biete individuellen IT‑Support für Senior:innen in Dietikon und Umgebung:
-       Hilfe bei Handy, Computer, E‑Mail, Online‑Banking (QR‑Code), Drucker‑Einrichtung und mehr.</p>
-
-    <p>
-      <strong>Kontakt:</strong> <a href="mailto:astrid@dieti-it.ch">astrid@dieti-it.ch</a><br>
-      <strong>Tel:</strong> <a href="tel:+41764974262">076 497 42 62</a>
+    <h2>Über mich </h2>
+    <p>Ich bin eine erfahrene Informatik‑Spezialistin und liebe, was ich tue. Von Software Entwicklung, 
+      Hardware Installation, Netzwerk und Sicherheit bis hin zu Schulungen im Umgang mit Mobile Phone, Tablet und Computer. 
+      Ich habe meine professionelle Karriere an den Nagel gehängt, weil ich lieber persönliche Beziehungen pflege und mit Leuten 
+      zu tun haben will, die ich mag und die meine Hilfe schätzen. 
     </p>
-
-    <p>
-      <a class="anmelde-button" href="{{ url_for('portal') }}">Zum Kursportal (Unterlagen & Anmeldung)</a>
-      <a class="download-button" href="{{ url_for('flyer') }}" target="_blank">Flyer ansehen</a>
-    </p>
-
-    <section style="margin-top:1.2rem;">
-      <h2>Was ich anbiete</h2>
+  </section>
+  <section>
+      <h2>Angebot</h2>
+      <p>Individuelle Unterstützung mit Verständnis, Hingabe und Geduld besonders für Seniorinnen und Senioren in Dietikon und Umgebung:
+      </p>
       <ul>
-        <li>Einzelcoaching vor Ort oder per Remote</li>
+        <li>Ich komme zu Ihnen zu Hause</li>
         <li>Einrichtung von Geräten & Sicherheits‑Checks</li>
+        <li>Schulung im Umgang mit Software und Anwendungen</li>
         <li>Begleitung bei Online‑Anmeldungen & Bankgeschäften</li>
-      </ul>
+        <li>Behebung von technischen Problemen</li>
+        <li>Beratung zu digitalen Themen</li>
+        <li>und mehr...</li>
+      </ul> 
+      <br> 
+      <a class="download-button" href="{{ url_for('static', filename='docs/promo/Flyer IT Support Dietikon.pdf') }}" target="_blank">IT Support Flyer</a>
+       
+</section>
+<br>
+
+<section>
+    <h1>Kontaktieren Sie mich:</h1>
+    <p>
+      <strong>email:</strong> <a href="mailto:astrid@dieti-it.ch">astrid@dieti-it.ch</a><br>
+      <strong>oder Tel:</strong> <a href="tel:+41764974262">076 497 42 62</a>
+    </p>
+</section>
+
+
+
+
+    <section>
+      <h1>Kursportal (aktuell laufen keine Kurse)</h1>
+      <p>
+        <a class="download-button" href="{{ url_for('portal') }}">Zum Kursportal</a>
+        
+      </p>
     </section>
+
   </section>
 {% endblock %}
-<!-- ...existing code... -->
+</main>
+  <footer>© 2025 IT-Support Dietikon | Astrid Lanz | 
+      Kontakt: <a href="mailto:astrid@dieti-it.ch">astrid@dieti-it.ch</a>, <a href="tel:+41764974262">Tel: 076 497 42 62</a></footer>
+</body>
+</html>
