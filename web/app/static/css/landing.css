@@ -1,3 +1,29 @@
+/* ==== Landing Page Navigation ============================================= */
+.landing-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.landing-nav .nav-link {
+  padding: 0.5rem 1rem;
+  border: 2px solid #6a29ae;
+  border-radius: 6px;
+  color: #6a29ae;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.landing-nav .nav-link:hover {
+  background: #6a29ae;
+  color: white;
+  transform: translateY(-2px);
+}
+
 /* ==== Hero Header ========================================================= */
 .hero-header {
   /* background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); */
@@ -32,6 +58,17 @@
 }
 
 @media (max-width: 768px) {
+  .landing-nav {
+    justify-content: center;
+    padding: 0.8rem 1rem;
+    gap: 0.6rem;
+  }
+  
+  .landing-nav .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
   .hero-header {
     padding: 3rem 1rem;
   }
@@ -40,6 +77,16 @@
   }
   .hero-subtitle {
     font-size: 1.2rem;
+  }
+  
+  .social-links {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  
+  .social-link {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -312,6 +359,45 @@ section.kursleitung img {
   height: auto;
   display: inline-block;
   vertical-align: middle;
+}
+
+/* ==== Social Media Links auf Landing Page ================================ */
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid #0077cc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  background-color: #0077cc;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,119,204,0.2);
+}
+
+.social-link .icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.social-link span {
+  font-size: 0.9rem;
 }
 
 

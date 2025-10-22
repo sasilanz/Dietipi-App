@@ -9,6 +9,12 @@
   <link href="{{ url_for('static', filename='css/landing.css') }}" rel="stylesheet">
 </head>
 <body>
+  <!-- Simple Navigation -->
+  <nav class="landing-nav">
+    <a href="#ueber-mich" class="nav-link">Über mich</a>
+    <a href="{{ url_for('portal') }}" class="nav-link">Kursportal</a>
+  </nav>
+
   <!-- Hero Header -->
   <header class="hero-header">
     <div class="hero-content">
@@ -20,20 +26,13 @@
 
   <main class="wrap">
 {% block content %}
-  <section>
-    <h2>Über mich </h2>
-    <p>Ich bin eine erfahrene Informatik‑Spezialistin und liebe, was ich tue. Von Software Entwicklung, 
-      Hardware Installation, Netzwerk und Sicherheit bis hin zu Schulungen im Umgang mit Mobile Phone, Tablet und Computer. 
-      Ich habe meine professionelle Karriere an den Nagel gehängt, weil ich lieber persönliche Beziehungen pflege und mit Leuten 
-      zu tun haben will, die ich mag und die meine Hilfe schätzen. 
-    </p>
-  </section>
-  <section>
+
+<section>
       <h2>Angebot</h2>
       <p>Individuelle Unterstützung mit Verständnis, Hingabe und Geduld besonders für Seniorinnen und Senioren in Dietikon und Umgebung:
       </p>
       <ul>
-        <li>Ich komme zu Ihnen zu Hause</li>
+        <li>Ich komme zu Dir nach Hause</li>
         <li>Einrichtung von Geräten & Sicherheits‑Checks</li>
         <li>Schulung im Umgang mit Software und Anwendungen</li>
         <li>Begleitung bei Online‑Anmeldungen & Bankgeschäften</li>
@@ -47,15 +46,87 @@
 </section>
 <br>
 
-<section>
-    <h1>Kontaktieren Sie mich:</h1>
+  <section id="ueber-mich">
+    <h2>Über mich </h2>
+    <p>Ich bin eine erfahrene Informatik‑Spezialistin und liebe, was ich tue. Von Software Entwicklung, 
+      Hardware Installation, Netzwerk und Sicherheit bis hin zu Schulungen im Umgang mit Mobile Phone, Tablet und Computer. 
+      Ich habe meine professionelle Karriere an den Nagel gehängt, weil ich lieber persönliche Beziehungen pflege und mit Leuten 
+      zu tun haben will, die ich mag und die meine Hilfe schätzen. 
+    </p>
+
+    <h3>Mehr über mich</h3>
+    <p>Ich habe viele Jahre in unterschiedlichen Aufgabenbereichen in der IT gearbeitet und bin immer noch ein sogenannter „Geek“.
+      Ich mag Hardware, weil man die anfassen kann und kenne mich auch gut mit Entwicklung, Virtualisierung, Security und Cloud-Themen aus. 
+      Diesen Sommer hab ich zb aus aktuellem Anlass, weil unter dem Vordach Rotschwänzchen gebrütet haben,  eine Vogelbeobachtungskamera mit einem Raspberry Pi gebaut, und diesen Monat einen Gaming Linux PC zusammengeschraubt.
+    </p>
+    <p>Neben der IT habe ich auch kreative Hobbys: Ich mache Musik, zeichne und mag Tiere. In unserem Haushalt lebt auch <a href="https://www.youtube.com/watch?v=SNIxLnRucx8" target="_blank">Gioia, </a> eine super liebe Hündin, die weiss, wie sehr wir sie lieben und wie sie uns um den Finger wickeln kann.  
+      Meine EP "echoes" ist auf verschiedenen Streaming-Plattformen verfügbar.  Ich habe eine Ausbildung als Heilpraktikerin, Tierkommunikatorin und <a href="https://www.qhhtofficial.com/" target="_blank">QHHT</a>. 
+      <br><br>
+      Aber vor allem bin ich IT-Spezialistin mit Leib und Seele und freue mich darauf, wenn ich Dir helfen kann.
+    </p>
+
+    <div class="social-links">
+      <a href="https://l-con.ch" class="social-link" target="_blank" rel="noopener noreferrer" title="Meine Firma">
+        <svg class="icon" width="20" height="20" viewBox="0 0 48 44">
+          <path fill="currentColor" fill-rule="evenodd" d="M20.266 38.026c-2.437-1.065-5.302-1.733-8.116-2.388-4.468-1.04-9.088-2.116-9.983-4.553-.56-1.527-.386-3.223.454-4.427.797-1.141 2.148-1.745 3.905-1.745 1.032 0 2.193.204 3.453.61 4.24 1.36 7.292 6.1 9.106 9.838a42.98 42.98 0 0 1 1.18 2.665M6.527 23.066c1.173 0 2.51.215 4.017.698 9.445 3.033 13.383 19.43 13.383 19.43C19.899 36.363 2.888 38.404.434 31.72c-1.374-3.743.476-8.655 6.092-8.655zm34.8 0c5.616 0 7.466 4.912 6.091 8.655-2.453 6.684-19.465 4.644-23.491 11.473 0 0 3.938-16.397 13.383-19.43 1.506-.483 2.843-.697 4.016-.697zm0 1.847c-1.032 0-2.193.205-3.453.61-4.786 1.536-8.263 7.531-10.297 12.507 2.44-1.068 5.308-1.735 8.126-2.392 4.468-1.04 9.087-2.116 9.982-4.553.56-1.526.387-3.222-.453-4.426-.798-1.142-2.149-1.746-3.906-1.746zM11.953 8.493c1 0 2.132.303 3.374 1.025 5.516 3.204 7.5 19.618 7.5 19.618C21.188 23.864 8.384 20.34 7.17 14.633c-.54-2.545 1.343-6.14 4.785-6.14zm23.944-.001c3.442 0 5.325 3.596 4.784 6.14-1.213 5.71-14.017 9.232-15.66 14.504 0 0 1.986-16.414 7.502-19.618 1.242-.722 2.373-1.025 3.374-1.026zm-23.944 1.846c-1.086 0-1.791.589-2.19 1.083-.658.812-.975 1.95-.788 2.828.467 2.204 4.077 4.486 7.262 6.5 1.269.802 2.514 1.59 3.647 2.402a64.171 64.171 0 0 0-.533-2.19c-1.892-7.164-3.914-9.244-4.952-9.847-.885-.514-1.708-.776-2.446-.776zm23.944 0c-.738 0-1.561.262-2.447.776-1.037.603-3.06 2.683-4.951 9.847a63.847 63.847 0 0 0-.534 2.19c1.133-.812 2.379-1.6 3.648-2.402 3.185-2.014 6.795-4.296 7.262-6.5.187-.879-.13-2.016-.788-2.828-.4-.495-1.104-1.082-2.19-1.083zM23.926 0a4.808 4.808 0 0 1 4.808 4.808c0 2.556-4.452 9.636-4.788 10.167l-.02.031s-4.808-7.542-4.808-10.198A4.808 4.808 0 0 1 23.926 0zm0 1.846a2.965 2.965 0 0 0-2.962 2.962c0 .962 1.353 3.808 2.962 6.623 1.608-2.815 2.962-5.66 2.962-6.623a2.965 2.965 0 0 0-2.962-2.962z"/>
+        </svg>
+        <span>l-con GmbH</span>
+      </a>
+      <a href="https://github.com/sasilanz" class="social-link" target="_blank" rel="noopener noreferrer" title="GitHub Profil">
+        <svg class="icon" width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+      <a href="https://orion5d.com" class="social-link" target="_blank" rel="noopener noreferrer" title="Meine Hobby-Webseite">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9" fill="#CD7F32" stroke="#8B4513" stroke-width="0.5"/>
+          <circle cx="12" cy="8" r="1.2" fill="#A0522D"/>
+          <circle cx="8.5" cy="11" r="1.2" fill="#A0522D"/>
+          <circle cx="15.5" cy="11" r="1.2" fill="#A0522D"/>
+          <circle cx="9.5" cy="14.5" r="1.2" fill="#A0522D"/>
+          <circle cx="14.5" cy="14.5" r="1.2" fill="#A0522D"/>
+          <circle cx="12" cy="16.5" r="1.2" fill="#A0522D"/>
+        </svg>
+        <span>Orion5D</span>
+      </a>
+      <a href="https://www.youtube.com/@astridlanz7116" class="social-link" target="_blank" rel="noopener noreferrer" title="YouTube Kanal">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="#FF0000">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <span>YouTube</span>
+      </a>
+      
+      <a href="https://music.youtube.com/playlist?list=OLAK5uy_muUvLrGbRbekAOfTtO8nmBFJ6xrXiCwok" class="social-link" target="_blank" rel="noopener noreferrer">
+        <svg class="icon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#FF0000">
+          <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm5.4 17.28c-.288.432-.792.576-1.224.288-3.384-2.088-7.632-2.52-12.672-1.368-.504.144-.936-.216-1.08-.72-.144-.504.216-.936.72-1.08 5.28-1.44 9.84-1.008 13.824 1.44.432.264.576.816.312 1.248zm1.632-3.744c-.36.504-1.008.72-1.512.36-3.888-2.376-9.792-3.096-14.328-1.656-.576.216-1.224-.216-1.44-.792-.216-.576.216-1.224.792-1.44C8.88 9.36 15.12 10.224 19.464 12c.432.264.576.816.312 1.248zm.384-3.888C15.84 7.2 8.64 6.912 4.08 8.208c-.72.216-1.44-.216-1.656-.936-.216-.72.216-1.44.936-1.656C9.36 5.76 16.8 6.048 21.36 8.688c.72.36.936 1.104.576 1.824-.36.72-1.104.936-1.824.576z"/>
+    </svg>
+        <span>YouTube Music</span>
+      </a>
+    
+      <a href="https://open.spotify.com/intl-de/album/47mEXz757YP7mnnvnkxJmR" class="social-link" target="_blank" rel="noopener noreferrer" title="Spotify">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="#1DB954">
+          <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+        </svg>
+        <span>Spotify</span>
+      </a>
+      <a href="https://music.apple.com/ch/artist/astrid-lanz/1797635037" class="social-link" target="_blank" rel="noopener noreferrer" title="Apple Music">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="#FA243C">
+          <path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.25.014-.496.04-.739.077-.463.07-.916.176-1.353.35a4.63 4.63 0 0 0-1.03.58c-.32.274-.592.594-.816.949-.199.324-.353.674-.46 1.044a8.578 8.578 0 0 0-.292 1.472c-.034.265-.05.53-.058.796-.01.234-.01.468-.01.702v10.176c0 .23 0 .457.01.687.008.267.024.532.058.796.08.53.177 1.05.292 1.472.107.37.261.72.46 1.044.224.355.497.675.816.949.314.265.66.46 1.03.58.437.174.89.28 1.353.35.243.037.488.063.739.077.152.01.303.016.455.026h12.04c.04-.002.083-.01.124-.013.517-.024 1.03-.065 1.564-.15.657-.105 1.288-.32 1.877-.726 1.118-.732 1.863-1.732 2.18-3.043.114-.497.18-1.01.24-1.524.065-.593.103-1.19.088-1.79.01-.052.01-.105.01-.157V6.28c0-.052 0-.104-.01-.156.015-.6-.023-1.197-.088-1.79zM9.17 15.112a2.202 2.202 0 0 1-2.207 2.207 2.202 2.202 0 0 1-2.207-2.207c0-1.215.992-2.207 2.207-2.207h.004c1.216 0 2.203.992 2.203 2.207zm.04-5.032c0 .23-.02.46-.058.689-.04.23-.099.45-.177.663a2.065 2.065 0 0 1-1.001 1.113c-.218.12-.46.204-.711.25a2.218 2.218 0 0 1-.835.01V5.887c.003-.024.017-.042.04-.045.023-.003.042.01.058.028l.017.022.017.022.017.023 3.45 5.08c.024.034.04.073.04.114v4.962c0 .23-.02.46-.058.689-.04.23-.099.45-.177.663a2.065 2.065 0 0 1-1.001 1.113c-.218.12-.46.204-.711.25a2.218 2.218 0 0 1-.835.01c-.1-.014-.197-.032-.293-.056V14.98c0-.23.02-.46.058-.689.04-.23.099-.45.177-.663.176-.482.51-.882.94-1.113.218-.12.46-.204.711-.25.278-.049.56-.062.835-.01.1.014.197.032.293.056V10.08z"/>
+        </svg>
+        <span>Apple Music</span>
+      </a>
+    </div>
+  </section>
+  
+
+ <section>
+    <h1>Kontaktiere mich:</h1>
     <p>
       <strong>email:</strong> <a href="mailto:astrid@dieti-it.ch">astrid@dieti-it.ch</a><br>
       <strong>oder Tel:</strong> <a href="tel:+41764974262">076 497 42 62</a>
     </p>
 </section>
-
-
 
 
     <section>
