@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="12" cy="6" r="1.5"/>
+  <circle cx="8" cy="10" r="1.5"/>
+  <circle cx="16" cy="10" r="1.5"/>
+  <circle cx="9" cy="16" r="1.5"/>
+  <circle cx="15" cy="16" r="1.5"/>
+  <text x="12" y="14" font-size="8" text-anchor="middle" font-weight="bold">5D</text>
+</svg>

@@ -242,9 +242,9 @@ section.kursleitung img {
 .l-con-link .link-mit-icon {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-weight: 600;
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.7rem;
   border: 1px solid #0077cc;
   border-radius: 4px;
   background-color: #fff;
@@ -257,10 +257,11 @@ section.kursleitung img {
   color: #fff;
 }
 .l-con-link .icon {
-  width: 16px;
-  height: auto;
-  display: inline-block;
-  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
 
